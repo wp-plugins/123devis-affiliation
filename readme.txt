@@ -1,0 +1,78 @@
+=== 123devis-affiliation ===
+Contributors: Servicemagic EU
+Plugin Uri: http://wordpress.org/extend/plugins/123devis-affiliation/
+Tags: affiliation, performance, devis, travaux, formulaire travaux, leads, 123devis, 123devis.com, partenariat, génération de leads, collecte de profils, quotes
+Requires at least: 3.5
+Tested up to: WP 3.5.1
+Stable tag: 1.0.0
+License: GPLv2
+
+Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
+
+== Description ==
+
+= Pourquoi télécharger le plugin 123devis-affiliation ? =
+
+Le plugin 123devis-affiliation vous permet d’installer rapidement et simplement l’ensemble des formulaires 123devis.com sur votre site. Ce plugin, entièrement customisable, s’intègrera parfaitement au design de votre site et améliorera ainsi vos performances de conversion.
+Une mise à jour automatique ! 
+Plus besoin de vous rapprocher de notre service technique pour disposer de nos dernières améliorations,
+le plugin 123devis-affiliation bénéficie de mises à jour automatiques et régulières.
+Le plugin 123devis.com Affiliation, a été conçu pour faciliter l’intégration de formulaires de demandes de devis « travaux » sur votre site WordPress et créer un partenariat de performances avec 123devis.com, le leader de la mise en relation entre particuliers et professionnels du bâtiment.
+
+= Pourquoi devenir Affiliés 123devis.com ? =
+
+Vous souhaitez proposer à vos internautes un service de qualité, monétiser votre audience en générant du profil qualifié, notre programme 123devis-affiliation.com est fait pour vous. 
+Pour en savoir plus, rendez-vous sur notre site http://www.123devis-affiliation.com.
+
+= Les caractéristiques du plugin =
+
+- Formulaires de demandes de devis en une ou deux étapes
+- Intégrables sous forme de shortcode dans les articles ou pages
+- Choix de formulaires parmi 300 activités
+- Code de tracking personnalisé
+- Personnalisation des couleurs de texte et de fond
+- Personnalisation du texte en haut de chaque étape
+- Personnalisation du texte du bouton de validation
+
+== Installation ==
+
+1. Enregistrez-vous sur le site http://www.123devis-affiliation.com/
+2. Extraire le fichier ZIP du plugin dans le répertoire wp-content/plugins
+3. Activer le plugin dans le menu Extensions
+4. Entrer votre identifiant et votre mot de passe affilié sur l'écran 123devis > Identifiants
+5. Créer un formulaire intégrable sur l'écran 123devis > Formulaires intégrables
+6. Placer le shortcode [sm] dans un article ou une page
+
+== Frequently Asked Questions ==
+
+À venir
+
+== Screenshots ==
+
+1. Formulaires intégrables
+2. Modifier le formulaire intégrable
+3. Options des formulaires
+4. Menu 123devis
+
+== Help ==
+
+Si vous avez besoin d’aide ou rencontrez des problèmes avec le plugin 123devis-affiliation, 
+n’hésitez pas à nous envoyer un message à l’adresse suivante : apihelp@servicemagic.eu, nous y répondrons dans les plus brefs délais.
+
+== About ==
+
+= 123devis.com, qui sommes-nous ? =
+
+Avec plus de 600 000 demandes de devis travaux collectées par an et un réseau de 25 000 professionnels du bâtiment présents partout en France, 123devis.com est le n° 1 de la mise en relation sur internet entre particuliers et professionnels du bâtiment.
+Notre équipe de 140 collaborateurs, veille chaque jour à offrir à ses clients une qualité de service optimale en respectant un véritable processus de validation.
+Filiale française de HomeAdvisor, premier réseau mondial de mise en relation entre particuliers et professionnels du bâtiment, 123devis bénéficie de toute l’expertise de son réseau pour proposer en permanence des solutions innovantes.
+
+== Translations ==
+
+* English (default)
+* French (fr_FR)
+
+== Changelog ==
+
+= 1.0.0 =
+* Initial version
