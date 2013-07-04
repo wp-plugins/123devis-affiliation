@@ -3,7 +3,7 @@
 		function render(){
 			if ($this->data->get_api()->get_country() == "fr"){
 				$s = '<div class="sm_interview sm_thanks"><a name="formname"></a>'.
-					'<h2>Votre demande de devis a bien été enregistrée</h2>'.
+					'<h2>Merci pour votre demande</h2>'.
 					'<p>L\'un de nos conseillers va maintenant traiter votre demande d\'inscription.</p>'.
 					'<p>Il vous confirmera votre inscription sous 48 heures.</p>'.
 					'</div>';

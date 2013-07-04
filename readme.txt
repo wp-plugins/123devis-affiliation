@@ -3,8 +3,8 @@ Contributors: Servicemagic EU
 Plugin Uri: http://wordpress.org/extend/plugins/123devis-affiliation/
 Tags: affiliation, performance, devis, travaux, formulaire travaux, leads, 123devis, 123devis.com, partenariat, génération de leads, collecte de profils, quotes
 Requires at least: 3.5
-Tested up to: WP 3.5.1
-Stable tag: 1.0.0
+Tested up to: WP 3.5.2
+Stable tag: 1.0.1
 License: GPLv2
 
 Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
@@ -73,6 +73,13 @@ Filiale française de HomeAdvisor, premier réseau mondial de mise en relation e
 * French (fr_FR)
 
 == Changelog ==
+
+= 1.0.1 =
+* Tested with WordPress 3.5.2
+* Fixed: Activation and deactivation problem on multisite
+* Fixed: Plugin crash with the error "Data too long for column 'server_json'"
+* Fixed: "FATAL ERROR: CALL TO A MEMBER FUNCTION GET_RESPONSE_FIELD()" while using trusted cache
+* Fixed: Typo on the SP thank you page
 
 = 1.0.0 =
 * Initial version

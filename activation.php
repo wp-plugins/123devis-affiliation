@@ -22,92 +22,99 @@ function sm_activation(){
 
 	sm_individual_activation();
 
-    if (function_exists( 'is_network_admin' ) AND is_network_admin() ) {
-    	global $wpdb;
+	if (function_exists( 'is_network_admin' ) AND is_network_admin() ) {
+		global $wpdb;
 		$root_blog = $wpdb->blogid;
-    	$ms_blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+		$ms_blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
 
-    	foreach ($ms_blog_ids as $blog_id) {
-    		switch_to_blog($blog_id);
-        	sm_individual_activation();
-    	}
-    	//revert to original blog
+		foreach ($ms_blog_ids as $blog_id) {
+			switch_to_blog($blog_id);
+			sm_individual_activation();
+		}
+		//revert to original blog
 		switch_to_blog($root_blog);
-    }
+	}
 }
 
 function sm_individual_activation(){
 	global $wpdb;
-	//install some tables
-	//first determine if we need to rename sm_sr_forms - if so do it
-	$old_sr_table_name = $wpdb->prefix . "sm_forms";
-	$new_sr_table_name = $wpdb->prefix . "sm_sr_forms";
 
-	$find_old_table = $wpdb->query("SELECT 1 FROM Information_schema.tables WHERE table_name = '$old_sr_table_name' AND table_schema = '".DB_NAME."'");
-	if (!empty($find_old_table)){
-		$wpdb->query("ALTER TABLE $old_sr_table_name RENAME $new_sr_table_name;");
-	}
+	$api_sm_db_version = '1';
+	$wp_sm_db_version = get_option('sm_db_version');
 
-	$sr_sql = "CREATE TABLE IF NOT EXISTS $new_sr_table_name (
-		id INT(10) NOT NULL AUTO_INCREMENT,
-		activity_id INT(10) NOT NULL,
-		activity_title VARCHAR(200) NOT NULL,
-		embedable_name VARCHAR(50) NOT NULL,
-		name VARCHAR(50) NOT NULL,
-		tracking_label VARCHAR(50) NOT NULL,
-		parameters VARCHAR(2000) NOT NULL,
-		is_archived SMALLINT NOT NULL DEFAULT '0',
-		created  DATETIME,
-		altered  DATETIME,
-		PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
-	";
-	$wpdb->query($sr_sql);
+	if($api_sm_db_version != $wp_sm_db_version) {
 
-	$sp_table_name = $wpdb->prefix . "sm_sp_forms";
-	$sp_sql = "CREATE TABLE IF NOT EXISTS $sp_table_name (
-		id INT(10) NOT NULL AUTO_INCREMENT,
-		embedable_name VARCHAR(50) NOT NULL,
-		name VARCHAR(50) NOT NULL,
-		tracking_label VARCHAR(50) NOT NULL,
-		parameters VARCHAR(2000) NOT NULL,
-		is_archived SMALLINT NOT NULL DEFAULT '0',
-		created  DATETIME,
-		altered  DATETIME,
-		PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
-	";
-	$wpdb->query($sp_sql);
+		//install some tables
+		//first determine if we need to rename sm_sr_forms - if so do it
+		$old_sr_table_name = $wpdb->prefix . "sm_forms";
+		$new_sr_table_name = $wpdb->prefix . "sm_sr_forms";
 
-	//check for and remove the kwid field
-	foreach(array('new_sr_table_name', 'sp_table_name') as $tbl){
-		$find_is_archived_field = $wpdb->get_col($wpdb->prepare("SELECT 1 FROM Information_schema.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = 'kwid' AND TABLE_SCHEMA= %s", $$tbl, DB_NAME));
-		if (!empty($find_is_archived_field)){
-			$wpdb->query("ALTER TABLE {$$tbl} DROP COLUMN kwid");
+		$find_old_table = $wpdb->query("SELECT 1 FROM Information_schema.tables WHERE table_name = '$old_sr_table_name' AND table_schema = '".DB_NAME."'");
+		if (!empty($find_old_table)){
+			$wpdb->query("ALTER TABLE $old_sr_table_name RENAME $new_sr_table_name;");
 		}
-	}
 
-	//check for and add the is_archived field
-	foreach(array('new_sr_table_name', 'sp_table_name') as $tbl){
-		$find_is_archived_field = $wpdb->get_col($wpdb->prepare("SELECT 1 FROM Information_schema.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = 'is_archived' AND TABLE_SCHEMA= %s", $$tbl, DB_NAME));
-		if (empty($find_is_archived_field)){
-			$wpdb->query("ALTER TABLE {$$tbl} ADD COLUMN is_archived SMALLINT NOT NULL DEFAULT '0' AFTER tracking_label");
+		$sr_sql = "CREATE TABLE $new_sr_table_name (
+				id int(10) not null auto_increment,
+				activity_id int(10) not null,
+				activity_title varchar(200) not null,
+				embedable_name varchar(50) not null,
+				name varchar(50) not null,
+				tracking_label varchar(50) not null,
+				parameters varchar(2000) not null,
+				is_archived smallint(6) not null default '0',
+				created datetime,
+				altered datetime,
+				PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
+		";
+
+		$sp_table_name = $wpdb->prefix . "sm_sp_forms";
+		$sp_sql = "CREATE TABLE $sp_table_name (
+				id int(10) not null auto_increment,
+				embedable_name varchar(50) not null,
+				name varchar(50) not null,
+				tracking_label varchar(50) not null,
+				parameters varchar(2000) not null,
+				is_archived smallint(6) not null default '0',
+				created datetime,
+				altered datetime,
+				PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
+		";
+
+		$log_table_name = $wpdb->prefix . "sm_log";
+		$log_sql = "CREATE TABLE $log_table_name (
+				id int(10) not null auto_increment,
+				path varchar(200) not null,
+				get_json varchar(4000),
+				post_json varchar(4000),
+				type varchar(50) not null,
+				message varchar(200),
+				message_more varchar(4000),
+				timest int(10) not null,
+				user_name varchar(50),
+				server_json varchar(4000),
+				PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
+		";
+
+		//check for and remove the kwid field
+		foreach(array($new_sr_table_name, $sp_table_name) as $tbl){
+			$find_is_archived_field = $wpdb->get_col($wpdb->prepare("SELECT 1 FROM Information_schema.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = 'kwid' AND TABLE_SCHEMA= %s", $tbl, DB_NAME));
+			if (!empty($find_is_archived_field)){
+				$wpdb->query("ALTER TABLE {$tbl} DROP COLUMN kwid");
+			}
 		}
-	}
 
-	$table_name = $wpdb->prefix . "sm_log";
-	$sql1 = "CREATE TABLE IF NOT EXISTS $table_name (
-		id INT(10) NOT NULL AUTO_INCREMENT,
-		path VARCHAR(200) NOT NULL,
-		get_json VARCHAR(4000),
-		post_json VARCHAR(4000),
-		type VARCHAR(50) NOT NULL,
-		message VARCHAR(200),
-		message_more VARCHAR(4000),
-		timest INT(10) NOT NULL,
-		user_name VARCHAR(50),
-		server_json VARCHAR(4000),
-		PRIMARY KEY  (id) )  COLLATE='utf8_general_ci',  ENGINE=InnoDB;
-	";
-	$wpdb->query($sql1);
+		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+		foreach(array($sr_sql, $sp_sql, $log_sql) as $tbl) {
+			dbDelta($tbl);
+		}
+
+		if(false !== $wp_sm_db_version) {
+			delete_option('sm_db_version');
+		}
+		add_option('sm_db_version', $api_sm_db_version, '', 'no');
+
+	}
 
 	//add to settings
 	if (!get_option('sm_api_url')){
@@ -131,15 +138,15 @@ function sm_deactivation(){
 	if (function_exists( 'is_network_admin' ) AND is_network_admin() ) {
 		global $wpdb;
 		$root_blog = $wpdb->blogid;
-    	$ms_blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-    	foreach ($ms_blog_ids as $blog_id) {
-    		switch_to_blog($blog_id);
-        	sm_individual_deactivation();
-    	}
+		$ms_blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+		foreach ($ms_blog_ids as $blog_id) {
+			switch_to_blog($blog_id);
+			sm_individual_deactivation();
+		}
 
-    	//revert to original blog
+		//revert to original blog
 		switch_to_blog($root_blog);
-    }
+	}
 }
 
 function sm_individual_deactivation(){
@@ -167,6 +174,6 @@ function sm_individual_deactivation(){
 		delete_option( 'sm_api_timeout_spans' );
 		delete_option( 'sm_api_cache_mechanism' );
 		delete_option( "sm_display_defaults" );
+		delete_option( 'sm_db_version');
 	}
 }
-

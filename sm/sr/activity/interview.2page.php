@@ -66,13 +66,13 @@
 							$s .= $hidden_obj->render($qdata, $_POST);
 						} else {
 							$s .= "<div class=\"sm_item\" id=\"{$qdata['name']}_wrap\">\n";
-							$s .= "<label class=\"sm_label\" for=\"". $qdata['name'] ."_form\">\n\t";
+							$s .= "<label class=\"sm_label\" for=\"". $qdata['name'] ."_form\">\n";
 
 							$s .= $qdata['label'];
 							if (isset($qdata['required'])){
 								$s .= "<span class=\"sm_required\">*</span>\n";
 							}
-							$s .= "\n</label>\n";
+							$s .= "</label>\n";
 
 							$form_obj_name = "sm_sr_activity_interview_" . $qdata['type'];
 
@@ -135,7 +135,7 @@
 					" 	var reg = new RegExp(param);\n".
 					//" 	console.log(reg);\n".
 					"	return this.optional(element) || reg.test(value);\n".
-					"}, \"Invalid format.\");\n\n".
+					"}, \"Invalid format.\");\n".
 
 					'$.validator.addMethod("re_match_one", function(value, element, param) {'."\n".
 					//"	console.log('param', param, value);\n".
@@ -146,7 +146,7 @@
 					"		if (this_re.test(value)) return true;\n".
 					"	}\n".
 					"	return this.optional(element);\n".
-					"}, \"Invalid format.\");\n\n".
+					"}, \"Invalid format.\");\n".
 
 					"$(\"#sm_2page_form\").formwizard({ \n".
 					"	textSubmit : '" . $submit_string . "',\n".

@@ -114,7 +114,7 @@
 						" 	var reg = new RegExp(param);\n".
 						//" 	console.log(reg);\n".
 						"	return this.optional(element) || reg.test(value);\n".
-						"}, \"Invalid format.\");\n\n".
+						"}, \"Invalid format.\");\n".
 						'$.validator.addMethod("re_match_one", function(value, element, param) {'."\n".
 						//"	console.log('param', param, value);\n".
 						"	for (var re_i in param) { \n".
@@ -124,7 +124,7 @@
 						"		if (this_re.test(value)) return true;\n".
 						"	}\n".
 						"	return this.optional(element);\n".
-						"}, \"Invalid format.\");\n\n".
+						"}, \"Invalid format.\");\n".
 					
 						"$(\"#sm_basic_form\").validate({\n";
 						if ($ajax_submit_path) {

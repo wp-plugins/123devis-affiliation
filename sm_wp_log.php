@@ -8,6 +8,22 @@
 				$data = array("message" => $data);
 			}
 			
+			//$_SERVER can contain too much info, filter to smaller set
+			$filtered_server = array();
+			$saveables = array(
+				"HTTP",
+				"SERVER_PROTOCOL",
+				"PATH"
+			);
+			
+			foreach($saveables as $save_str){
+				foreach ($_SERVER as $name => $val){
+					if (strpos($name, $save_str) === 0){
+						$filtered_server[$name] = $val;
+					}	
+				}
+			}
+						
 			$more_data = array(
 				'path' => $_SERVER['REQUEST_URI'], 
 				'get_json' => json_encode($_GET),
@@ -15,7 +31,7 @@
 				'timest' => time(),
 				'type' => "message",
 				'user_name' => $current_user->user_login,
-				'server_json' => json_encode($_SERVER)
+				'server_json' => json_encode($filtered_server)
 			);
 			
 			$all_data = array_merge($more_data, $data);

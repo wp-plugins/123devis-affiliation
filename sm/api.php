@@ -51,6 +51,7 @@
 		}
 
 		private function call($mthd, $call_args){
+
 			$from_cache = 0;
 			//save the path to here for reeuse in rendering
 			$renderable_class_name = "sm_" . implode("_", $this->path);
@@ -94,7 +95,6 @@
 
 					//now that we have name, check the cache for quicker response
 					$cache = new sm_cacheing;
-
 					$cached_api_data = $cache->retrieve($cache_identifyer_str);
 
 					if (isset($cached_api_data['etag']) AND $this->cache_mechanism == "ETAG"){
@@ -103,6 +103,7 @@
 
 					if ($this->cache_mechanism == "Timeout" AND !empty($cached_api_data)){
 						$api_data = $cached_api_data;
+						$from_cache = 1;
 					} else {
 						$sm_http = $this->http_factory(array("headers"=>$headers));
 
@@ -162,7 +163,7 @@
 				throw new sm_exception_httperror ("api error", $error_data);
 			}
 
-			if ($mthd == "get" AND !isset($decoded_data['errors']) AND $sm_http->get_response_field("status_code") != "304"){
+			if ($mthd == "get" AND !isset($decoded_data['errors']) AND !$from_cache AND $sm_http->get_response_field("status_code") != "304"){
 				//save etag for cacheing reeuse
 				if ($etag = $sm_http->get_response_field("etag")){
 					$api_data['etag'] = $etag;

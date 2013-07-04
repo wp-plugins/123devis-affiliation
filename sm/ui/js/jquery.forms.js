@@ -1,10 +1,9 @@
 ﻿jQuery.support.cors = true;
 
 jQuery(function($){
-	
 	//setup the other text field behaviors
 	$("div.sm_other_wrap.start_hide").hide();
-	$(".sm_select_has_other").on("change click", {}, function(){
+	$(".sm_select_has_other").bind("change click", function(){
 		var $this = $(this);
 		var jSel = 'input[name="'+$this.attr("name") + '_manual_input"]';
 		var show_it = Boolean($this.val().match(/other$/));
