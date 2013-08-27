@@ -19,7 +19,7 @@ function sm_activation(){
 		$editor->add_cap('sm_api_manage_forms');
 	}
 
-
+	sm_clear_api_cache();
 	sm_individual_activation();
 
 	if (function_exists( 'is_network_admin' ) AND is_network_admin() ) {

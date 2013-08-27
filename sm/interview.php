@@ -79,8 +79,22 @@
 		function validate($data){
 			$validator = $this->get_validator();
 			$validator->set_data($data);
+			$questions = $this->data['questions'];
 			
-			foreach ($this->data['questions'] as $ditem){
+			//deal with behaviors - currently only one affects here so handle locally
+			foreach ($questions as $ki => $ditem){
+				if (!empty($ditem['behavior'])){
+					foreach($ditem['behavior'] as $behavior){
+						if ($behavior['type'] == 'alternate_validation'){
+							if (!empty($data[$behavior['observed']]) && in_array($data[$behavior['observed']], $behavior['conditions']['value_in'])){
+								$questions[$ki]['validation'] = $behavior['validation'];
+							}
+						}
+					}
+				}
+			}
+
+			foreach ($questions as $ditem){
 				$val = isset($data[$ditem['name']]) ? $data[$ditem['name']] : "";
 				$required = isset($ditem['required']) AND $ditem['required'];
 				if ($required OR (!$required AND $val != '' AND !empty($ditem['validation']))){

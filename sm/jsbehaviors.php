@@ -35,6 +35,53 @@
            
             return $s;
         }
+		
+		 protected function alternate_validation_bhvr($calledby, $behavior){
+            $observed = $behavior['observed'];
+            $target = $calledby['name'];
+            $conditions = $behavior['conditions']['value_in'];
+            $js_in_array = "[\"" . implode("\",\"", $conditions) . "\"]";
+			
+			//determine the errors that will be alternated
+			$err_obj = new sm_baseinterview;
+	
+			$default_errs = $err_obj->setup_jquery_validate_messages(array($calledby));
+			$behavior['name'] = $calledby['name']; //needed to get s_j_v_m VV to work
+			$update_errs = $err_obj->setup_jquery_validate_messages(array($behavior));			
+			
+			if (empty($default_errs['rules'])){
+				$default_e = array();
+			} else {
+				$default_e = $default_errs['rules'][$calledby['name']];
+				$default_e['messages'] = $default_errs['messages'][$calledby['name']];
+			}
+			
+			if (empty($update_errs['rules'])){
+				$update_e = array();
+			} else {
+				$update_e = $update_errs['rules'][$calledby['name']];	
+				$update_e['messages'] = $update_errs['messages'][$calledby['name']];
+			}
+
+			$s = "";
+			$s .= "$(\"#{$observed}_form\", $(\"{$this->root_jq_selector}\")).change(function(){\n";
+            $s .= " var v = $(this).val();\n";
+            $s .= " if (jQuery.inArray(v, $js_in_array) == -1){\n";
+			//$s .= "		console.log($(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules());";
+            $s .= " 	$(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules(\"remove\");\n";
+			$s .= " 	$(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules(\"add\", " . json_encode($default_e) . ")\n";
+			//$s .= "		console.log($(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules());";
+            $s .= "} else {";
+			//$s .= "		console.log($(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules());";
+            $s .= " 	$(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules(\"remove\");\n";
+			$s .= " 	$(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules(\"add\", " . json_encode($update_e) . ")\n";
+			//$s .= "		console.log($(\"#{$target}_form\", $(\"{$this->root_jq_selector}\")).rules());";
+			
+            $s .= "}\n";
+            $s .= "});\n";
+            $s .= "$(\"#{$observed}_form\", $(\"{$this->root_jq_selector}\")).change();\n";
+            return $s;
+        }
         
     }
      

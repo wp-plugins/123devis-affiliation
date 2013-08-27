@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/123devis-affiliation/
 Tags: affiliation, performance, devis, travaux, formulaire travaux, leads, 123devis, 123devis.com, partenariat, génération de leads, collecte de profils, quotes
 Requires at least: 3.5
 Tested up to: WP 3.5.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2
 
 Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
@@ -73,6 +73,10 @@ Filiale française de HomeAdvisor, premier réseau mondial de mise en relation e
 * French (fr_FR)
 
 == Changelog ==
+
+= 1.0.2 =
+* Add a clear cache button
+* Country selection for SP
 
 = 1.0.1 =
 * Tested with WordPress 3.5.2

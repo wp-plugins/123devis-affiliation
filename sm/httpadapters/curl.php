@@ -84,6 +84,7 @@
 		}
 
 		private function send($url)	{
+
 			$curl_obj = curl_init();
 
 			$this->config[CURLOPT_URL] = $url;

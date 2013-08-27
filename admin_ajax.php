@@ -261,4 +261,7 @@
 
 		exit;
 	}
-	
+	function sm_ajax_api_clear_cache(){
+		print sm_clear_api_cache();
+		exit();
+	}

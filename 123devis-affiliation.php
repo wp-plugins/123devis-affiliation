@@ -3,7 +3,7 @@
 Plugin Name: 123devis-affiliation
 Plugin URI: http://wordpress.org/extend/plugins/123devis-affiliation/
 Description: Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
-Version: 1.0.1
+Version: 1.0.2
 Author: Servicemagic EU
 */
 
@@ -38,13 +38,16 @@ if ( !function_exists('sm_plugins_loaded') ) {
 		add_shortcode( 'sm', 'sm_shortcode_func' );
 
 		include 'admin_ajax.php';
+		//admin only
 		add_action( 'wp_ajax_sm_ajax_activities', 'sm_ajax_activities' );
 		add_action( 'wp_ajax_sm_ajax_activity_search', 'sm_ajax_activity_search' );
 		add_action( 'wp_ajax_sm_ajax_history_data', 'sm_ajax_history_data' );
 		add_action( 'wp_ajax_sm_ajax_interview', 'sm_ajax_interview' );
-		add_action( 'wp_ajax_sm_ajax_activity_search', 'sm_ajax_activity_search' );
+		add_action( 'wp_ajax_sm_ajax_api_clear_cache', 'sm_ajax_api_clear_cache' );
+		
+		//open
 		add_action( 'wp_ajax_nopriv_sm_ajax_activity_search', 'sm_ajax_activity_search' );
-
+		add_action( 'wp_ajax_sm_ajax_activity_search', 'sm_ajax_activity_search' );
 		add_action( 'wp_ajax_nopriv_sm_ajax_sr_submit', 'sm_ajax_submit' );
 		add_action( 'wp_ajax_sm_ajax_sr_submit', 'sm_ajax_submit' );
 		add_action( 'wp_ajax_nopriv_sm_ajax_sp_submit', 'sm_ajax_submit' );
@@ -53,7 +56,7 @@ if ( !function_exists('sm_plugins_loaded') ) {
 		//include 'widget.php';
 		//add_action('widgets_init','sm_widgets_init');
 
-		include 'linked_forms.php';
-		add_action('the_posts', 'sm_linked_forms_content');
+		//include 'linked_forms.php';
+		//add_action('the_posts', 'sm_linked_forms_content');
 	}
 }

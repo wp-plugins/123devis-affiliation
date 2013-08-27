@@ -2,7 +2,7 @@
 	class sm_api {
 
 		private $api_url = 'http://local-api.servicemagic.co.uk';
-		private $api_version = "0.2";
+		private $api_version = "0.3";
 		private $cache_mechanism = "ETAG";
 		private $api_country;
 		private $path = array();
@@ -119,6 +119,7 @@
 							$api_data = json_decode($api_data_str, 1);
 						}
 					}
+
 				break;
 				case 'post' :
 					$sm_http = $this->http_factory(array("headers"=>$headers));

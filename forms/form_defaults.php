@@ -11,10 +11,17 @@
 	<?php if(current_user_can('sm_api_manage_forms')){ ?>
 	
 	<h3><?php _e( 'Module Settings', 'sm_translate' ); ?></h3>
-	
-	
-	
+
 	<?php if(current_user_can('sm_api_manage_options')){ ?>
+	<?php if ($sm_accept_spa) {?>
+		<div class="sm_form_item">
+			<label for="sm_font_size"><?php _e("Choose your country", "sm_translate")?></label><br />
+			<select class="sm_select" id="sm_sp_submit_to_country" name="sm_sp_submit_to_country">
+				<option <?php if (sm_val_in_arrays('sm_sp_submit_to_country', $form_data_list, $sm_sp_submit_to_country) == $sm_api_server_country) print "selected";?> value="<?php print $sm_api_server_country;?>"><?php print $sm_api_server_country;?></option>
+				<option <?php if (sm_val_in_arrays('sm_sp_submit_to_country', $form_data_list, $sm_sp_submit_to_country) == 'other') print "selected";?> value="other"><?php _e("other", "sm_translate");?></option>
+			</select>
+		</div>
+	<?php } ?>
 	
 	<div class="sm_form_item">
 		<label class="sm_inherit_pointer" for="parent"><?php _e("Temporarily disable API connections when slow", "sm_translate");?></label><br />
@@ -53,6 +60,10 @@
 		<p>
 			<input type="radio" class="sm_checkbox" name="sm_api_cache_mechanism" id="tiemout_cache" value="Timeout" <?php if (sm_val_in_arrays('sm_api_cache_mechanism',  $form_data_list, $sm_api_cache_mechanism) == "Timeout") print "checked=\"checked\"";?>> <b>Trusted Cache :</b>
 			<label for="tiemout_cache"><?php _e("The plugin will use cached data if it exists.  It is possible that the user might  stale data and therefore see a code issue while submitting an interview.","sm_translate");?></label>
+		</p>
+		<p>
+			<input id="clear_api_cache" type="button" class="button action" value="<?php _e("Clear API Cache", "sm_translate")?>">
+			<span id="clear_api_cache_status"></span>
 		</p>
 	</div>
 	
@@ -117,6 +128,18 @@
 			var t = $j(this).attr("data_target");
 			$j('input[name="'+t+'"]').miniColors("value","").blur();
 			evt.preventDefault();			
+		});
+		$j("input#clear_api_cache").click(function(){
+			$j("#clear_api_cache_status").html("<?php _e("clearing...", "sm_translate");?>");
+			$j.ajax({
+			  type: "POST",
+			  url: "admin-ajax.php", 
+			  data: {"action":"sm_ajax_api_clear_cache"},
+			  success: function(data){
+				$j("#clear_api_cache_status").html(data + " <?php _e("files cleared", "sm_translate");?>");
+				setTimeout(function(){$j("#clear_api_cache_status").html("");}, 2000);
+			  }
+			});
 		});
 	});
 </script>

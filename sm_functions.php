@@ -134,6 +134,7 @@
 				break;
 				case 'sp':
 					$interview = $api->sp->interview->get(array());
+					sm_manage_sp_submission_country($interview);
 				break;
 			}
 		} catch(Exception $e){
@@ -219,7 +220,7 @@
 				array("jquery", "jquery-ui-core", "jquery-ui-widget", "jquery-form")
 			),
 			"jquery.validate" => array(
-				"url" => "http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js",
+				"url" => "http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js",
 				"dependencies" => array("jquery.form.wizard")
 			),
 			"jquery.bbq" => array(
@@ -274,4 +275,31 @@
 		$str = strtolower($str);
 
 		return $str;
+	}
+	
+	function sm_clear_api_cache(){
+		$pattern = plugin_dir_path(__FILE__) . "sm/cache/*.json";
+		$files = glob($pattern);
+		$deleted_count = 0;
+		foreach($files as $file){
+			if (unlink($file)){
+				$deleted_count ++;
+			}
+		}
+		return $deleted_count;
+	}
+	
+	function sm_manage_sp_submission_country ($interview){
+		$sm_api_server = get_option("sm_api_server");
+		$sm_api_server_country = strtoupper(str_replace(array("dev-", "local-"), "", $sm_api_server));
+		$sm_sp_submit_to_country = get_option("sm_sp_submit_to_country", $sm_api_server_country);
+		$questions = $interview->get_questions();
+		foreach($questions as $k => $question){
+			if ($question['name'] == "sp_country"){
+				$questions[$k]['type'] = 'hidden';
+				unset($questions[$k]['options']);
+				$questions[$k]['default'] = str_replace(array("FR", "UK"), array("France", "United Kingdom"), $sm_sp_submit_to_country);
+			}
+		}
+		$interview->set_questions($questions);
 	}

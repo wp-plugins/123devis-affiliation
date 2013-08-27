@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Servicemagic API\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-11 15:08+0100\n"
-"PO-Revision-Date: 2013-06-11 15:09+0100\n"
-"Last-Translator: Frédéric GILLES <f.gilles@servicemagic.eu>\n"
+"POT-Creation-Date: 2013-08-20 11:04-0700\n"
+"PO-Revision-Date: 2013-08-20 11:07-0700\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr-FR\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
 #: .././administration.php:10
@@ -83,8 +83,8 @@ msgstr "Identifiants non trouvé"
 msgid "Credentials Saved"
 msgstr "Identifiants Sauvegardés"
 
-#: .././administration.php:129 .././administration.php:172
-#: .././administration.php:369 .././administration.php:370
+#: .././administration.php:129 .././administration.php:180
+#: .././administration.php:379 .././administration.php:380
 msgid "Please fix these errors"
 msgstr "Veuillez corriger ces erreurs"
 
@@ -92,63 +92,63 @@ msgstr "Veuillez corriger ces erreurs"
 msgid "Settings not accepted"
 msgstr "Paramètres non sauvegardés"
 
-#: .././administration.php:160
+#: .././administration.php:168
 msgid "The Font Size must be an integer"
 msgstr "La taille de police doit être un numéro entier"
 
-#: .././administration.php:161
+#: .././administration.php:169
 msgid "The Font Color must be a valid hex value"
 msgstr "La couleur de police doit être une valeur valide"
 
-#: .././administration.php:162
+#: .././administration.php:170
 msgid "The Background Color must be a valid hex value"
 msgstr "La couleur de fond doit être une valeur valide"
 
-#: .././administration.php:163
+#: .././administration.php:171
 msgid "The Cache mechanism must be selected"
 msgstr "Le mécanisme de cache doit être sélectionné"
 
-#: .././administration.php:185
+#: .././administration.php:195
 msgid "Options Saved!"
 msgstr "Options sauvegardées"
 
-#: .././administration.php:222
+#: .././administration.php:232
 msgid "Item archived"
 msgstr "Formulaire archivé"
 
-#: .././administration.php:223
+#: .././administration.php:233
 msgid "Item permanently deleted"
 msgstr "Formulaire supprimé de manière permanente"
 
-#: .././administration.php:224
+#: .././administration.php:234
 msgid "Item de-archived"
 msgstr "Formulaire désarchivé"
 
-#: .././administration.php:301 .././administration.php:453
+#: .././administration.php:311 .././administration.php:463
 msgid "Name is required"
 msgstr "Veuillez entrer un nom"
 
-#: .././administration.php:302
+#: .././administration.php:312
 msgid "Please select a ServiceMagic form"
 msgstr "Veuillez sélectionner un formulaire 123devis"
 
-#: .././administration.php:314 .././administration.php:466
+#: .././administration.php:324 .././administration.php:476
 msgid "This Name is too short or not useable"
 msgstr "Ce nom est trop court ou pas utilisable"
 
-#: .././administration.php:324 .././administration.php:478
+#: .././administration.php:334 .././administration.php:488
 msgid "This Name is not unique"
 msgstr "Le nom doit être unique"
 
-#: .././administration.php:363 .././administration.php:516
+#: .././administration.php:373 .././administration.php:526
 msgid "Saved"
 msgstr "Sauvegardé"
 
-#: .././administration.php:366 .././administration.php:519
+#: .././administration.php:376 .././administration.php:529
 msgid "Return to embedable forms list"
 msgstr "Retour à la liste de formulaires intégrables"
 
-#: .././administration.php:380
+#: .././administration.php:390
 msgid ""
 "This form has invalid charachters in the form identifyer. Only letters, "
 "numbers and underscores are permissible."
@@ -157,8 +157,8 @@ msgstr ""
 "formulaire. Seules les lettres, numéros, et caractères de soulignement sont "
 "autorisés."
 
-#: .././administration.php:407 .././administration.php:445
-#: .././administration.php:551
+#: .././administration.php:417 .././administration.php:455
+#: .././administration.php:561
 msgid ""
 "There was a problem connecting to the ServiceMagic API.  Please try again "
 "soon or contact your Affiliate Representative."
@@ -166,7 +166,7 @@ msgstr ""
 "Problème pour se connecter sur l'API. Réessayer ou contacter votre "
 "responsable 123devis."
 
-#: .././administration.php:531
+#: .././administration.php:541
 msgid ""
 "This form has invalid charachters in the form identifyer. Only letters, "
 "underscores and dashes are acceptable."
@@ -230,7 +230,7 @@ msgstr ""
 "Identifiant du formulaire utilisé dans le shortcode. Si vous le modifiez, "
 "pensez aussi à modifier les articles et les pages utilisant ce shortcode."
 
-#: .././forms/embeddable.php:47 .././forms/form_defaults.php:72
+#: .././forms/embeddable.php:47 .././forms/form_defaults.php:83
 msgid "Your tracking code"
 msgstr "Votre code de tracking"
 
@@ -242,7 +242,7 @@ msgstr ""
 "Ce paramètre vous permet de dissocier les résultats de ce formulaire "
 "indépendamment des autres formulaires."
 
-#: .././forms/embeddable.php:55 .././forms/form_defaults.php:62
+#: .././forms/embeddable.php:55 .././forms/form_defaults.php:73
 msgid "Tracking pixel HTML"
 msgstr "Pixel de tracking HTML"
 
@@ -432,19 +432,27 @@ msgstr "Retourner à la liste précédente"
 msgid "Module Settings"
 msgstr "Configuration"
 
-#: .././forms/form_defaults.php:20
+#: .././forms/form_defaults.php:18
+msgid "Choose your country"
+msgstr "Choisissez votre pays"
+
+#: .././forms/form_defaults.php:21
+msgid "other"
+msgstr "autre"
+
+#: .././forms/form_defaults.php:27
 msgid "Temporarily disable API connections when slow"
 msgstr "Désactiver temporairement les connexions API en cas de lenteur."
 
-#: .././forms/form_defaults.php:27 .././forms/form_defaults.php:39
+#: .././forms/form_defaults.php:34 .././forms/form_defaults.php:46
 msgid "Yes"
 msgstr "Oui"
 
-#: .././forms/form_defaults.php:31
+#: .././forms/form_defaults.php:38
 msgid "Clear all traces of plugin on deactivation"
 msgstr "Effacer toutes les traces du plugin en cas de désactivation."
 
-#: .././forms/form_defaults.php:42
+#: .././forms/form_defaults.php:49
 msgid ""
 "Check here if you wish all traces of the plugin to be removed when you "
 "deactivate the plugin."
@@ -452,11 +460,11 @@ msgstr ""
 "Cochez cette case si vous souhaitez que toutes les traces du plugin soient "
 "enlevées lorsque vous désactiver le plugin."
 
-#: .././forms/form_defaults.php:48
+#: .././forms/form_defaults.php:55
 msgid "API cache mechanism"
 msgstr "Mécanisme de cache API"
 
-#: .././forms/form_defaults.php:51
+#: .././forms/form_defaults.php:58
 msgid ""
 "The plugin will make a request to servicemagic.eu servers to see if the "
 "cached data is current.  This option while marginally slower ensures the "
@@ -466,7 +474,7 @@ msgstr ""
 "données sont en cache. Cette option ralentit le site légerement, mais assure "
 "un fonctionnement optimal de l'extension."
 
-#: .././forms/form_defaults.php:55
+#: .././forms/form_defaults.php:62
 msgid ""
 "The plugin will use cached data if it exists.  It is possible that the user "
 "might  stale data and therefore see a code issue while submitting an "
@@ -476,7 +484,11 @@ msgstr ""
 "que l'utilisateur obtienne des données périmées et un message d'erreur s'il "
 "utilise cette option."
 
-#: .././forms/form_defaults.php:64
+#: .././forms/form_defaults.php:65
+msgid "Clear API Cache"
+msgstr "Vider le cache API"
+
+#: .././forms/form_defaults.php:75
 msgid ""
 "Typically used with adwords pixels, this parameter allows you to append html "
 "to the success/thanks messaging on submission(javascript will not work "
@@ -486,15 +498,15 @@ msgstr ""
 "html sur la page de confirmation (javascript ne fonctionnera pas). Laisser "
 "vide pour ne pas utiliser cette fonction."
 
-#: .././forms/form_defaults.php:69
+#: .././forms/form_defaults.php:80
 msgid "Manage Form Appearance"
 msgstr "Gestion de l’apparence des formulaires"
 
-#: .././forms/form_defaults.php:70
+#: .././forms/form_defaults.php:81
 msgid "Customize the form's appearance"
 msgstr "Personnalisez l’apparence des formulaires"
 
-#: .././forms/form_defaults.php:74
+#: .././forms/form_defaults.php:85
 msgid ""
 "This parameter allows you to track the results of default forms "
 "independently from other forms."
@@ -502,29 +514,37 @@ msgstr ""
 "Ce paramètre vous permet de dissocier les résultats indépendamment dans les "
 "rapports."
 
-#: .././forms/form_defaults.php:78
+#: .././forms/form_defaults.php:89
 msgid "Font size"
 msgstr "Taille de police"
 
-#: .././forms/form_defaults.php:80
+#: .././forms/form_defaults.php:91
 msgid "Default"
 msgstr "Défaut"
 
-#: .././forms/form_defaults.php:93
+#: .././forms/form_defaults.php:104
 msgid "Font color"
 msgstr "Couleur de police"
 
-#: .././forms/form_defaults.php:95 .././forms/form_defaults.php:101
+#: .././forms/form_defaults.php:106 .././forms/form_defaults.php:112
 msgid "Reset default"
 msgstr "Réinitialiser"
 
-#: .././forms/form_defaults.php:99
+#: .././forms/form_defaults.php:110
 msgid "Section background"
 msgstr "Couleur de fond"
 
-#: .././forms/form_defaults.php:105
+#: .././forms/form_defaults.php:116
 msgid "Save"
 msgstr "Sauvegarder"
+
+#: .././forms/form_defaults.php:133
+msgid "clearing..."
+msgstr "en train de vider..."
+
+#: .././forms/form_defaults.php:139
+msgid "files cleared"
+msgstr "cache supprimés"
 
 #: .././forms/form_defaults_thanks.php:2
 msgid "Update Successful"

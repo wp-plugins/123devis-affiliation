@@ -6,11 +6,15 @@
 			$rules = array();
 			$messages = array();
 			foreach ($questions as $question){
+			
 				if (isset($question['validation'])){
 					foreach ($question['validation'] as $validation_rule){
 						$name = $question['name'] . ($question['type'] == "checkbox" ? '[]' : "");
 						if (!isset($rules[$name])){
 							$rules[$name] = array();
+						}
+						if (!isset($messages[$name])){
+							$messages[$name] = array();
 						}
 						switch ($validation_rule['type']){
 							case 'not_empty' : 

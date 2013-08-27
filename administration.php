@@ -144,7 +144,15 @@ function sm_admin_form_defaults_page() {
 	$sm_deactivate_api_during_slow = get_option("sm_deactivate_api_during_slow", 0);
 	$sm_clear_all_trace_on_deactivation = get_option("sm_clear_all_trace_on_deactivation", 0);
 	$sm_api_cache_mechanism = get_option("sm_api_cache_mechanism", "ETAG");
+	
+	if ($sm_accept_spa = get_option("sm_accept_spa", 0)){
+		$sm_api_server = get_option("sm_api_server");
+		$sm_api_server_country = strtoupper(str_replace(array("dev-", "local-"), "", $sm_api_server));
+		$sm_sp_submit_to_country = get_option("sm_sp_submit_to_country", $sm_api_server_country);
+	}
+	
 	$form_data_list = array(stripslashes_deep($_REQUEST));
+	
 	$messages = array();
 	
 	if (!empty($_POST) AND isset($_POST['sm_font_size']) AND isset($_POST['_nonce'])){
@@ -181,7 +189,9 @@ function sm_admin_form_defaults_page() {
 			update_option("sm_default_success_more_text", stripslashes_deep($_POST['sm_default_success_more_text']));
 			update_option("sm_api_cache_mechanism", stripslashes_deep($_POST['sm_api_cache_mechanism']));
 			update_option("sm_default_aff_str", $_POST['sm_default_aff_str']);
-			
+			if (get_option("sm_accept_spa", 0)){
+				update_option("sm_sp_submit_to_country", $_POST['sm_sp_submit_to_country']);
+			}
 			$messages["updated"] = __("Options Saved!", "sm_translate");
 			new sm_wp_log("API Defaults updated");
 		}

@@ -135,7 +135,10 @@
 			$s .= "</div>\n";
 
 			$json_messages = $this->setup_jquery_validate_messages($this->data->get_data("questions"));
-
+			
+			$error_strings = array("fr"=>"S'il vous plaît corriger ces erreurs", "uk"=>"Please fix these errors : ");
+			$error_string = $error_strings[$lang];
+			
 			$s .= "<script type=\"text/javascript\">\n".
 						'jQuery(function($){'."\n".
 						'$("#sp_phone_form").ForceNumericOnly();'."\n".
@@ -171,7 +174,7 @@
 							"					\$(form).html(data.message);\n".
 							"					form.scrollIntoView(false);\n".
 							"				} else if(typeof(data.errors) == \"object\") {\n".
-							"					var s = \"Please fix these errors\";\n".
+							"					var s = \"".$error_string."\\n\";\n".
 							"					for (var ei in data.errors){\n".
 							"						s += data.errors[ei].join(\"\\n\");\n".
 							"					}\n".
