@@ -2,6 +2,7 @@
 	class sm_sp_interview_tradelist extends sm_renderable {
 
 		function render($data, $form){
+			$translation = $this->data->get_parameter("translate");
 			$trades_to_show = $this->data->get_parameter("trades", array());
 			if (count($trades_to_show)){
 				foreach ($data['options'] as $k => $option){
@@ -49,9 +50,9 @@
 					$s .= " start_hide";
 				}
 				$s .= "\">\n";
-				$specify_strings = array("fr"=>"Si autre, précisez", "uk"=>"Other, please state");
-				$lang = $this->data->get_api()->get_country();
-				$s .= $specify_strings[$lang];
+							
+				$s .= $translation->trans("Other, please state");
+				
 				$s .= " <input type=\"text\" name=\"{$data['other_option_name']}\" ";
 				if (isset($form[$data['other_option_name']])){
 					$s .= " value=\"{$form[$data['other_option_name']]}\" ";

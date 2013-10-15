@@ -6,6 +6,7 @@
 			$ajax_submit_path = $this->data->get_parameter("ajax_submit_path", "");
 			$embeddable_id = $this->data->get_parameter("sm_embeddable_id", "");
 			$lang = $this->data->get_api()->get_country();
+			$translation = $this->data->get_parameter("translate");
 			$s = "";
 			if ($params = $this->data->get_parameter("sm_display_defaults", false)){
 				$s .= "<style>";
@@ -39,12 +40,10 @@
 				}
 
 				$s .= "<div class=\"sm_form_step\">";
-				if ($this->data->get_api()->get_country() == "fr"){
-					$s .= "Étape ";
-				} else {
-					$s .= "Step ";
-				}
-				$s .= ($step+1) . " / " . count($steps);
+	
+				$s .= $translation->trans("Step");
+				
+				$s .= " " . ($step+1) . " / " . count($steps);
 				$s .= "</div>\n";
 				foreach($this->data->get_data("questions") as $qid => $qdata){
 					if ($qdata['group'] == $group){
@@ -93,31 +92,14 @@
 				$s .= "<div id=\"data\">\n</div>\n</div>\n";
 			}
 
-			$btn_translations = array(
-				"back_strings" => array("fr"=>"Arriere", "uk"=>"Back"),
-				"next_strings" => array("fr"=>"Suivant", "uk"=>"Continue"),
-				"submit_strings" => array("fr"=>"Valider", "uk"=>"Get Quotes")
-			);
-
-			foreach (array("submit_string", "back_string", "next_string") as $btn_lbl){
-				if (!$$btn_lbl = $this->data->get_parameter($btn_lbl, false)){
-					$$btn_lbl = $btn_translations[$btn_lbl . "s"][$lang];
-				}
-				$$btn_lbl =  addslashes($$btn_lbl);
-			}
-
-
 			$s .= "<div class=\"sm_form_controls\">";
-			//$s .= "<input type=\"reset\" class=\"sm_back\" value=\"Back\">\n";
-			$s .= "<input type=\"submit\" class=\"sm_submit\" value=\"{$next_string}\">\n";
+			$s .= "<input type=\"submit\" class=\"sm_submit\" value=\"".$translation->trans("Continue")."\">\n";
 			$s .= "</div>";
 
 			$s .= "<div class=\"sm_required_declaration\">";
-			if ($this->data->get_api()->get_country() == "fr"){
-				$s .= "* champs obligatoires";
-			} else {
-				$s .= "* required fields";
-			}
+
+			$s .= $translation->trans("* required fields");
+			
 			$s .= "</div>";
 
 			$s .= "</form>\n";
@@ -149,9 +131,9 @@
 					"}, \"Invalid format.\");\n".
 
 					"$(\"#sm_2page_form\").formwizard({ \n".
-					"	textSubmit : '" . $submit_string . "',\n".
-					"	textNext : '" . $next_string . "',\n".
-					"	textBack : '" . $back_string . "',\n".
+					"	textSubmit : '" . $translation->trans("Get Quotes") . "',\n".
+					"	textNext : '" . $translation->trans("Continue") . "',\n".
+					"	textBack : '" . $translation->trans("Back") . "',\n".
 					"	formPluginEnabled: false,\n".
 					"	validationEnabled: true,\n".
 					"	focusFirstInput : false,\n".
@@ -180,7 +162,7 @@
 						"					form.scrollIntoView(false);\n".
 						"					$(\"body\").triggerHandler(\"sr_submit.sm_eu\", [data.track_id]);\n".
 						"				} else if(typeof(data.errors) == \"object\") {\n".
-						"					var s = \"Please fix these errors\";\n".
+						"					var s = \"".$translation->trans("Please fix these errors :")."\\n\";\n".
 						"					for (var ei in data.errors){\n".
 						"						s += data.errors[ei].join(\"\\n\");\n".
 						"					}\n".

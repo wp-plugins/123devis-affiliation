@@ -1,20 +1,20 @@
 <?php
 	class sm_autoloader {
-		private $paths = array();
+		private static $paths = array();
 		
 		static function attach($more_paths = array()){
 			$al_obj = new sm_autoloader();
 			foreach ($more_paths as $autoload_path){
-				$al_obj->add_path($autoload_path);
+				sm_autoloader::add_path($autoload_path);
 			}
-			spl_autoload_register (array($al_obj, "load"));
+			spl_autoload_register ("sm_autoloader::load");
 		}
 	
-		function add_path($path){
-			array_unshift($this->paths, $path . "/");
+		static function add_path($path){
+			array_unshift(self::$paths, $path . "/");
 		}
 		
-		function load($name){
+		static function load($name){
 			//exit if not servicemagic specific
 			if (strpos($name, "sm_") !== 0) return;
 			
@@ -22,7 +22,7 @@
 			$name = str_replace("__", ".", $name);
 			
 			//check each override path first to see if we can find the alternate class file
-			foreach ($this->paths as $path){
+			foreach (self::$paths as $path){
 				$override_path = $path . $name . '.php';
                 if (file_exists($override_path)){
 					require_once $override_path;

@@ -21,7 +21,7 @@
 
          var setup_base_dom = function (){
             cntnr.addClass("sm_multiplude_builder");
-            cntnr.append('<input type="hidden" name="form_config">');
+            //cntnr.append('<input type="hidden" name="form_config">');
             cntnr.append('<div class="menu"><button id="add_step_btn" class="button" type="button">Add Step </button></div>');
             cntnr.append('<div class="steps"></div>');
             cntnr.append('<div class="clr"></div>');
@@ -112,7 +112,7 @@
             });
 
             if (!saveable) return false;
-            $("input[name=form_config]", cntnr).val(JSON.stringify(saveme));
+            $("input[name=form_config]").val(JSON.stringify(saveme));
 
             return true;
          }

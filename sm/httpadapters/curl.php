@@ -12,7 +12,7 @@
 			$this->config[CURLOPT_HEADER] = true;
 			$this->config[CURLOPT_NOBODY] = false;
 			$this->config[CURLOPT_RETURNTRANSFER] = true;
-			$this->config[CURLOPT_USERAGENT] = "mmm";
+			//$this->config[CURLOPT_USERAGENT] = "mmm";
 			$this->config[CURLOPT_SSL_VERIFYPEER] = false;
 		}
 

@@ -7,9 +7,21 @@
 		} else {
 			$api = new sm_api();
 		}
-
+		
+		//forward the php session id and the users ip for better tracking
+		$session_id = session_id();
+		if (!empty($session_id)){
+			$api->add_header("X-SMF-FORWARDED-SESSION-ID", $session_id);
+		}
+		if (!empty($_SERVER['REMOTE_ADDR'])){
+			$api->add_header("X-SMF-FORWARDED-IP", $_SERVER['REMOTE_ADDR']);
+		}
+		if (!empty($_COOKIE['KWID_COOKIE'])){
+			$api->add_header("X-SMF-FORWARDED-KWID", $_COOKIE['KWID_COOKIE']);
+		}
+	
+		//set the creds and cache mechanism
 		$api->set_api_url(get_option("sm_api_url"), get_option("sm_api_server"));
-
 		$api->set_cache_mechanism(get_option("sm_api_cache_mechanism", "ETAG"));
 
 		return $api;
@@ -99,7 +111,9 @@
 				$ajax_submit_path = admin_url() . "admin-ajax.php?action=sm_ajax_sp_submit";
 			break;
 		}
-
+		
+		$ajax_submit_path = preg_replace("~^http[s]?://[^/]+/~", "/", $ajax_submit_path);
+		
 		//prep sql and conditions
 		$conditions_keys = array();
 		$conditions_vals = array();
@@ -171,6 +185,24 @@
 
 		//give the embedable id so ajax submissions can find the right one
 		$interview->set_parameter("sm_embeddable_id", $myform->id);
+		
+		//show internal useage option if this form is for for sm internal use
+		if (array_key_exists('SM_IS_OUR_IP', $_SERVER)){
+			$internal_useage = array(
+				"name" => "form_data__checkbox_test",
+				"label" => __("INTERNAL USAGE (Only visible internally) :", "sm_translate"),
+				"type" => "checkbox",
+				"group" => "user",
+				"required" => 1,//required to show on forms with show only required set as yes
+				"validation" => array(),//required if required == 1
+				"options" => array(
+					array("label" => __("Check this box if you want this request to be filtered", "sm_translate"), "value"=>"test"),
+				)
+			);
+			$questions = $interview->get_questions();
+			array_unshift($questions, $internal_useage);
+			$interview->set_questions($questions);
+		}
 
 		return $interview;
 	}

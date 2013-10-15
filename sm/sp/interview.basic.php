@@ -12,6 +12,7 @@
 			$multiple_display_form_type = $this->data->get_parameter("multiple_display_form_type", "radio");
 			$lang = $this->data->get_api()->get_country();
 			$questions = $this->data->get_data("questions");
+			$translation = $this->data->get_parameter("translate");
 			//the worktype can be displayed in different ways. Setup for a seperate form object renderer 
 			//and prefilter the data for the selectable items
 			foreach ($questions as $qid => $qdata){
@@ -81,7 +82,7 @@
 						continue;
 					}
 
-					$s .= "<div class=\"sm_item\">\n";
+					$s .= "<div class=\"sm_item\" id=\"{$qdata['name']}_wrap\">\n";
 					$s .= "<label class=\"sm_label\" for=\"". $qdata['name'] ."_form\">\n";
 
 					$s .= $qdata['label'];
@@ -111,8 +112,7 @@
 			}
 
 			if (!$submit_string = $this->data->get_parameter("submit_string", false)){
-				$submit_strings = array("fr"=>"Valider", "uk"=>"Get Leads");
-				$submit_string = $submit_strings[$lang];
+				$submit_string = $translation->trans("Get Leads");
 			}
 
 			$submit_string = htmlspecialchars($submit_string);
@@ -123,11 +123,9 @@
 			$s .= "</div>";
 
 			$s .= "<div class=\"sm_required_declaration\">";
-			if ($this->data->get_api()->get_country() == "fr"){
-				$s .= "* champs obligatoires";
-			} else {
-				$s .= "* required fields";
-			}
+			
+			$s .= $translation->trans("* required fields");
+
 			$s .= "</div>";
 
 			$s .= "</form>\n";
@@ -135,9 +133,8 @@
 			$s .= "</div>\n";
 
 			$json_messages = $this->setup_jquery_validate_messages($this->data->get_data("questions"));
-			
-			$error_strings = array("fr"=>"S'il vous plaît corriger ces erreurs", "uk"=>"Please fix these errors : ");
-			$error_string = $error_strings[$lang];
+		
+			$error_string = $translation->trans("Please fix these errors :");
 			
 			$s .= "<script type=\"text/javascript\">\n".
 						'jQuery(function($){'."\n".
@@ -173,6 +170,7 @@
 							"				if (typeof(data.message) == 'string') {\n".
 							"					\$(form).html(data.message);\n".
 							"					form.scrollIntoView(false);\n".
+							"					$(\"body\").triggerHandler(\"sp_submit.sm_eu\", [data.track_id]);\n".
 							"				} else if(typeof(data.errors) == \"object\") {\n".
 							"					var s = \"".$error_string."\\n\";\n".
 							"					for (var ei in data.errors){\n".

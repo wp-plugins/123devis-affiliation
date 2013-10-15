@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class sm_sr_activity_interview__basic extends sm_baseinterview  {
 		
 		function render(){
@@ -6,6 +6,7 @@
 			$ajax_submit_path = $this->data->get_parameter("ajax_submit_path", "");
 			$embeddable_id = $this->data->get_parameter("sm_embeddable_id", "");
 			$lang = $this->data->get_api()->get_country();
+			$translation = $this->data->get_parameter("translate");
 			$s = "<div class=\"sm_interview\">\n";
 			if ($params = $this->data->get_parameter("sm_display_defaults", false)){
 				$s .= "<style>";
@@ -81,8 +82,7 @@
 			}
 			
 			if (!$submit_string = $this->data->get_parameter('submit_string', false)){
-				$submit_strings = array("fr"=>"Valider", "uk"=>"Get Quotes");
-				$submit_string = $submit_strings[$lang];	
+				$submit_string = $translation->trans("Get Quotes");
 			}			
 			
 			$submit_string = htmlspecialchars($submit_string);
@@ -90,13 +90,9 @@
 			$s .= "<div class=\"sm_form_controls\">";
 			$s .= "<input type=\"submit\" class=\"sm_submit\" value=\"" . $submit_string . "\">\n";
 			$s .= "</div>";
-			
+
 			$s .= "<div class=\"sm_required_declaration\">";
-			if ($this->data->get_api()->get_country() == "fr"){
-				$s .= "* champs obligatoires";
-			} else {
-				$s .= "* required fields";
-			}
+			$s .= $translation->trans("* required fields");
 			$s .= "</div>";
 			
 			$s .= "</form>\n";
@@ -139,6 +135,7 @@
 							"				if (typeof(data.message) == 'string') {\n".
 							"					\$(form).html(data.message);\n".
 							"					form.scrollIntoView(false);\n".
+							"					\$(\"body\").triggerHandler(\"sr_submit.sm_eu\", [data.track_id]);\n".
 							"				} else if(typeof(data.errors) == \"object\") {\n".
 							"					var s = \"Please fix these errors\";\n".
 							"					for (var ei in data.errors){\n".
@@ -149,7 +146,6 @@
 							"					alert(\"We've experienced an error. We do apologize. Please check back soon.\");\n".
 							"				}\n".
 							"				\$submit_btn.removeAttr(\"disabled\").attr(\"value\", \$submit_btn.attr(\"value\").replace(\"...\",\"\"));\n".
-							"				$(\"body\").triggerHandler(\"sr_submit.sm_eu\", [data.track_id]);\n".
 							"				return false;\n".
 							"			},\n".
 							"			\"error\": function(){\n".
@@ -162,14 +158,14 @@
 						//"},\n";
 						}
 						$s .= "		rules : " . json_encode($json_messages['rules']) . ", \n" .
-						"		messages : " . json_encode($json_messages['messages']) . ",\n".
-						"		errorPlacement: function(error, element) { \n".
+						"			messages : " . json_encode($json_messages['messages']) . ",\n".
+						"			errorPlacement: function(error, element) { \n".
 						"			if ( element.is(\":radio,:checkbox\") ){\n".
 						" 				//console.log(element.parent());\n".
 						"				error.insertAfter( element.parent().parent() );\n".
 						"			} else \n".
 						"				error.insertAfter( element);\n".
-						"		}\n".
+						"			}\n".
 						"});\n";
 		
 						$jsbehavior_obj = new sm_jsbehaviors();	

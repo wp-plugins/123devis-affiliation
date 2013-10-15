@@ -5,10 +5,10 @@
 			$defaults = $this->data->get_parameter("defaults", array());
 			$form_config = $this->data->get_parameter("form_config", array());
 			$questions = $this->data->get_data("questions");
-
 			$ajax_submit_path = $this->data->get_parameter("ajax_submit_path", "");
 			$embeddable_id = $this->data->get_parameter("sm_embeddable_id", "");
 			$lang = $this->data->get_api()->get_country();
+			$translation = $this->data->get_parameter("translate");
 			$s = "";
 			if ($params = $this->data->get_parameter("sm_display_defaults", false)){
 				$s .= "<style>";
@@ -40,12 +40,10 @@
 				$s .= "<div class=\"sm_above_q\"><h2>$step</h2></div>";
 
 				$s .= "<div class=\"sm_form_step\">";
-				if ($this->data->get_api()->get_country() == "fr"){
-					$s .= "Étape ";
-				} else {
-					$s .= "Step ";
-				}
-				$s .= ($kstep+1) . " / " . count($steps);
+	
+				$s .= $translation->trans("Step");
+				
+				$s .= " " . ($kstep+1) . " / " . count($steps);
 				$s .= "</div>\n";
 
 				foreach($form_config['q_in_col'][$kstep] as $qname){
@@ -64,7 +62,7 @@
 						$hidden_obj = new sm_sr_activity_interview_hidden($this->data);
 						$s .= $hidden_obj->render($qdata, $_POST);
 					} else {
-						$s .= "<div class=\"sm_item\">\n";
+						$s .= "<div class=\"sm_item\" id=\"{$qdata['name']}_wrap\">\n";
 						$s .= "<label class=\"sm_label\" for=\"". $qdata['name'] ."_form\">\n\t";
 
 						if (isset($form_config["q_labels"][$qdata['name']])){
@@ -105,30 +103,15 @@
 			$s .= "</div>";
 
 			$s .= "<div class=\"sm_required_declaration\">";
-			if ($this->data->get_api()->get_country() == "fr"){
-				$s .= "* champs obligatoires";
-			} else {
-				$s .= "* required fields";
-			}
+			
+			$s .= $translation->trans("* required fields");
+	
 			$s .= "</div>";//sm required
 			$s .= "</form>\n";
 			$s .= "</div>\n";//form
 			$s .= "</div>\n";//sm_interview
 
 			$json_messages = $this->setup_jquery_validate_messages($this->data->get_data("questions"));
-
-			$btn_translations = array(
-				"back_strings" => array("fr"=>"Arriere", "uk"=>"Back"),
-				"next_strings" => array("fr"=>"Suivant", "uk"=>"Continue"),
-				"submit_strings" => array("fr"=>"Valider", "uk"=>"Get Quotes")
-			);
-
-			foreach (array("submit_string", "back_string", "next_string") as $btn_lbl){
-				if (!$$btn_lbl = $this->data->get_parameter($btn_lbl, false)){
-					$$btn_lbl = $btn_translations[$btn_lbl . "s"][$lang];
-				}
-				$$btn_lbl =  addslashes($$btn_lbl);
-			}
 
 			$s .= "<script type=\"text/javascript\">\n".
 				'jQuery(function($){'."\n".
@@ -153,9 +136,9 @@
 					"}, \"Invalid format.\");\n\n".
 
 					"$(\"#sm_multiplude\").formwizard({ \n".
-					"	textSubmit : '" . $submit_string . "',\n".
-					"	textNext : '" . $next_string . "',\n".
-					"	textBack : '" . $back_string . "',\n".
+					"	textSubmit : '" . $translation->trans("Get Quotes") . "',\n".
+					"	textNext : '" .  $translation->trans("Continue") . "',\n".
+					"	textBack : '" .  $translation->trans("Back") . "',\n".
 					"	formPluginEnabled: false,\n".
 					"	validationEnabled: true,\n".
 					"	focusFirstInput : false,\n".
@@ -177,7 +160,7 @@
 						"					form.scrollIntoView(false);\n".
 						"					$(\"body\").triggerHandler(\"sr_submit.sm_eu\", [data.track_id]);\n".
 						"				} else if(typeof(data.errors) == \"object\") {\n".
-						"					var s = \"Please fix these errors\";\n".
+						"					var s = \"".$translation->trans("Please fix these errors :")."\\n\";\n".
 						"					for (var ei in data.errors){\n".
 						"						s += data.errors[ei].join(\"\\n\");\n".
 						"					}\n".
@@ -208,6 +191,9 @@
 					"	}\n".
 					" }\n".
 				");\n";
+				$s .= "$(\"#sm_multiplude\").bind(\"step_shown\", function(event, data){\n".
+				"	event.target.scrollIntoView(true);\n".
+				"})\n";
 			$s .= "});\n";
 			$s .= "</script>\n";
 

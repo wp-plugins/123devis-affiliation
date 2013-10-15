@@ -8,11 +8,18 @@
 		private $path = array();
 		private $overrides = array();
 		private $sm_settings;
+		private $headers;
 
 		function __construct($sm_aff_id = "0", $sm_token = "not stated"){
 			$this->sm_settings = array(
 				'sm_aff_id' => $sm_aff_id,
 				'sm_token' => $sm_token
+			);
+			
+			//setup the headers to transmit sm creds
+			$this->headers = array(
+				"user-agent" => "Servicemagic API Lib {$this->api_version}",
+				"x-sm-token" => $this->sm_settings['sm_token']
 			);
 		}
 
@@ -28,7 +35,11 @@
 		function set_cache_mechanism($cache_mechanism){
 			$this->cache_mechanism = $cache_mechanism;
 		}
-
+		
+		function add_header($name, $val){
+			$this->headers[$name] = $val;
+		}
+		
 		function get_country(){
 			return preg_replace("/^(dev-|local-)/", "", $this->api_server);
 		}
@@ -81,11 +92,7 @@
 				$url = preg_replace("/(local|dev)-(uk|fr|de|it|es)\//", "", $url);
 			}
 
-			//setup the headers to transmit sm creds
-			$headers = array(
-				"user_agent: Servicemagic API Lib {$this->api_version}",
-				"x-sm-token: ". $this->sm_settings['sm_token']
-			);
+			
 
 			switch($mthd){
 				case 'get' :
@@ -98,14 +105,14 @@
 					$cached_api_data = $cache->retrieve($cache_identifyer_str);
 
 					if (isset($cached_api_data['etag']) AND $this->cache_mechanism == "ETAG"){
-						$headers[] = "If-None-Match: " . $cached_api_data['etag'];
+						$this->headers[] = array("If-None-Match" => $cached_api_data['etag']);
 					}
 
 					if ($this->cache_mechanism == "Timeout" AND !empty($cached_api_data)){
 						$api_data = $cached_api_data;
 						$from_cache = 1;
 					} else {
-						$sm_http = $this->http_factory(array("headers"=>$headers));
+						$sm_http = $this->http_factory(array( "headers" => $this->prep_headers() ));
 
 						//make the call
 						$sm_http->get($url, $call_args);
@@ -122,7 +129,7 @@
 
 				break;
 				case 'post' :
-					$sm_http = $this->http_factory(array("headers"=>$headers));
+					$sm_http = $this->http_factory(array( "headers" => $this->prep_headers() ));
 					$sm_http->post($url, $call_args);
 					$api_data_str = $sm_http->get_response_field("body");
 					$api_data_str = str_replace("SMTP Error: Could not connect to SMTP host smtp-host\n", "", $api_data_str);
@@ -160,7 +167,7 @@
 				if (isset($call_args)){
 					$error_data["call_args"] = $call_args;
 				}
-				print_r($error_data);
+				
 				throw new sm_exception_httperror ("api error", $error_data);
 			}
 
@@ -189,11 +196,21 @@
 			}
 			return $http;
 		}
-
+		
+		private function prep_headers(){
+			$headers = array();
+			foreach ($this->headers as $header_key => $header_val){
+				$headers[] = $header_key . ": " . $header_val;
+			}
+			return $headers;
+		}
+		
 		//magic method used to build path url for api ex $api->account->validate->get();
 		function __get($name){
 			$this->path[] = strtolower($name);
 			return $this;
 		}
+		
+		
 
 	}

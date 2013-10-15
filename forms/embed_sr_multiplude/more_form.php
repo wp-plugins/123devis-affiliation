@@ -1,5 +1,5 @@
 <h2>Display Options</h2>
-
+<input type="hidden" name="form_config">
 <div class="sm_form_item">
 	<label for="next_string" class="sm_label"><?php _e("Text on the \"Next\" button", "sm_translate")?></label>
 	<input type="text" id="next_string" class="sm_text" name="next_string" value="<?php print htmlspecialchars(sm_val_in_arrays("next_string", $form_data_list, ""));?>">

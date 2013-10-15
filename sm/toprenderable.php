@@ -47,8 +47,8 @@
 		}
 		
 		function get_formatted_errors($format="html"){
-			$errors = $this->data['errors'];
 			if (!empty($this->data['errors'])){
+				$errors = $this->data['errors'];
 				foreach($errors as $error_name => $error_item){
 					$errors[$error_name] = implode("", $error_item);
 				}
@@ -66,7 +66,7 @@
 				} else {
 					throw new Exception("unknown error format : $format");
 				}
-			} else throw new Exception("Currently no errors, call method \"has_errors\" first");
+			} else throw new Exception("Currently no errors, check \"has_errors\" first");
 		}
 		
 		function set_parameter($name, $data){
@@ -94,17 +94,21 @@
 		function get_renderable(){
 		
 			//if renderable already exists
-			if (!is_null($this->renderable)) return $this->renderable;
+			if (is_null($this->renderable)) {
+				
+				//otherwise generate renderable
+				
+				//make a class that will render the data
+				$renderable_class_name = get_class($this) . '__' . $this->get_parameter("view", "basic");
+				$this->renderable = new $renderable_class_name($this);
+				
+				//merge the parameters and save them to this object
+				$this->parameters = array_merge($this->renderable->get_parameters(), $this->parameters);
+			}
 			
-			//otherwise generate renderable
-			
-			//make a class that will render the data
-			$renderable_class_name = get_class($this) . '__' . $this->get_parameter("view", "basic");
-			$this->renderable = new $renderable_class_name($this);
-			
-			//merge the parameters and save them to this object
-			$this->parameters = array_merge($this->renderable->get_parameters(), $this->parameters);
-			
+			//load translation object
+			$this->parameters['translate'] = new sm_translate($this->api->get_country());
+
 			return $this->renderable;
 		}
 		

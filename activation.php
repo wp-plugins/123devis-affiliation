@@ -1,5 +1,6 @@
 <?php
-function sm_activation(){
+function sm_activation(){ 
+
 	//first check version
 	$php_version = phpversion();
 	if (version_compare($php_version, '5.1.0') == -1){
