@@ -11,13 +11,6 @@
 				return $posts;
 			}
 
-			if (isset($_COOKIE['KWID_COOKIE'])){
-				$dflt_kwid = $_COOKIE['KWID_COOKIE'];
-			} else {
-				$sm_creds = get_option("sm_creds");
-				$dflt_kwid = $sm_creds['sm_kwids'][0];
-			}
-
 			$dflt_aff_str = get_option("sm_default_aff_str");
 			$display_defaults = get_option("sm_display_defaults");
 
@@ -35,7 +28,7 @@
 
 			new sm_wp_log("Showing linked form \"{$interview->get_id()}\" {$interview->get_title()}");
 
-			$interview->set_affiliate_data($dflt_kwid, $dflt_aff_str);
+			$interview->set_affiliate_track_string($dflt_aff_str);
 
 			if ($interview->has_errors()){
 				new sm_wp_log(array("type"=>"error", "message"=>"Error rendering interview", "message_more"=>$interview->get_errors()));

@@ -1,6 +1,6 @@
 <?php
 	class sm_sp_interview__thanks extends sm_renderable  {
-		function render(){
+		public function render(){
 			$translation = $this->data->get_parameter("translate");
 			
 			$s = '<div class="sm_interview sm_thanks">';

@@ -6,9 +6,9 @@
 <?php
 	sm_show_messages($messages);
 	
-	if (empty($myspforms) AND empty($mysrforms)) print "<p>" . __("No forms saved.","sm_translate") . " <a href=\"?page=sm_admin_forms_form&id=0\">" . __('Create new form', 'sm_translate') . "</a>?</p>";
+	if (empty($myspforms) AND empty($mysrforms)) print '<p>' . __('No forms saved.', 'sm_translate') . ' <a href="?page=sm_admin_forms_form&id=0">' . __('Create new form', 'sm_translate') . '</a>?</p>';
 	else {
-		print "<p><a href=\"?page=sm_admin_forms_form&id=0\">" . __('Create new form', 'sm_translate') . "</a></p>";
+		print '<p><a href="?page=sm_admin_forms_form&id=0" class="add-new-h2">' . __('Create new form', 'sm_translate') . '</a></p>';
 ?>
 <?php if (!empty($mysrforms)){?>
 	<h3>

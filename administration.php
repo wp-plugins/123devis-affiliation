@@ -7,7 +7,7 @@ function sm_admin_menu_setup() {
 	if(!(!get_option('sm_creds') && !current_user_can('sm_api_manage_options'))){
 	
 	// Top level menu
-   add_menu_page(__('ServiceMagic','sm_translate'), __('ServiceMagic','sm_translate'), 'sm_api_manage_forms', 'sm_admin_help', 'sm_admin_help_page', plugins_url('ui/img/sm_logo.png', __FILE__));
+    add_menu_page(__('ServiceMagic','sm_translate'), __('ServiceMagic','sm_translate'), 'sm_api_manage_forms', 'sm_admin_help', 'sm_admin_help_page', plugins_url('ui/img/sm_logo.png', __FILE__));
 	
 	add_submenu_page('sm_admin_help', __('Help','sm_translate'), __('First steps, help and Suggestions','sm_translate'), 'sm_api_manage_forms', 'sm_admin_help', 'sm_admin_help_page');
 	
@@ -64,15 +64,13 @@ function sm_admin_settings_page() {
 		$sm_api_url = $_POST['sm_api_url'];
 		$sm_api_server = $_POST['sm_api_server'];
 				
-
 		if (!$settings_validator->has_errors()){
 			//call api to see if creds work
-			
 			try {
 				$api = sm_api_factory();
 				$api->set_api_url($sm_api_url, $sm_api_server);
 				
-				$validate_api = $api->account->validateapi->get();
+				$validate_api = $api->account->validateapi->post();
 				
 				if (!$validate_api->was_successful()){
 					$settings_validator->add_error("sm_api_url", $validate_api->get_api_errors());
@@ -125,10 +123,12 @@ function sm_admin_settings_page() {
 			
 			new sm_wp_log("Settings validated. Affiliate id : ".$cred_check_result->get_sm_aff_id().", KWID : " . $kwids[0]);
 			$messages["updated"] = __("Credentials Saved", "sm_translate");
+			
 		} else {
+			new sm_wp_log(array("type" => "warning", "message" => __("Settings not accepted", "sm_translate") . $settings_validator->get_formatted_errors()));
 			$messages["error"] = $settings_validator->get_formatted_errors(__("Please fix these errors", "sm_translate"));
 		}
-		new sm_wp_log(array("type" => "warning", "message" => __("Settings not accepted", "sm_translate") . $settings_validator->get_formatted_errors()));
+		
 	} 
 	
 	include 'forms/settings.php';
@@ -138,7 +138,6 @@ function sm_admin_settings_page() {
 function sm_admin_form_defaults_page() {
 	$nounce = wp_create_nonce( 'settings_form' );
 	$sm_display_defaults = get_option("sm_display_defaults", array("sm_font_size"=>"", "sm_bg_color"=>"", "sm_font_color"=>""));
-	$sm_default_kwid = get_option("sm_default_kwid");
 	$sm_default_aff_str = get_option("sm_default_aff_str");
 	$sm_default_success_more_text = get_option("sm_default_success_more_text");
 	$sm_deactivate_api_during_slow = get_option("sm_deactivate_api_during_slow", 0);
@@ -413,10 +412,14 @@ function sm_admin_sr_forms_form_page() {
 		if (!empty($myform->activity_id)){
 			$interview_obj = $api->sr->activity->interview->get(array("activity"=>$myform->activity_id));
 		}
-	} catch (sm_exception_httperror $e){
-		$messages["error"] = __("There was a problem connecting to the ServiceMagic API.  Please try again soon or contact your Affiliate Representative.", "sm_translate");
-		include 'forms/show_message.php';
-		return;
+	} catch (sm_exception_general $e){
+		if (stripos($e->getMessage(), "invalid id") !== FALSE){//ignore invalid id, user will have to re-save
+			$messages["error"] = __("The saved interview identifier is invalid, Please reselect the interview and save the form.", "sm_translate");
+		} else {
+			$messages["error"] = __("There was a problem connecting to the ServiceMagic API.  Please try again soon or contact your Affiliate Representative.", "sm_translate");
+			include 'forms/show_message.php';
+			return;
+		}
 	}
 
 	$categories = $categories_obj->get_categories();

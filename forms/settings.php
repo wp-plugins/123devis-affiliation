@@ -32,7 +32,7 @@
 		<input type="radio" id="sm_api_server_<?php echo $server; ?>" name="sm_api_server" value="<?php print $server;?>" <?php if (sm_val_in_arrays('sm_api_server', array($_POST), $sm_api_server) == $server) print " checked ";?>><label for="sm_api_server_<?php echo $server; ?>"><?php print strtoupper($server)?></label><br>
 		<?php } ?>
 	</div>
-	<div <?php if (!isset($_REQUEST['dev'])){?>style="display:none"<?php } ?>>
+	<div <?php if (!(array_key_exists('dev', $_REQUEST) || array_key_exists('SM_IS_OUR_IP', $_SERVER))){?>style="display:none"<?php } ?>>
 		<h3>Options Dev</h3>
 		<div class="sm_form_item">
 			<label><?php _e("Locale", "sm_translate")?></label><br />

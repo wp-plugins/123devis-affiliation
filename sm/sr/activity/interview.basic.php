@@ -1,7 +1,7 @@
 ﻿<?php
 	class sm_sr_activity_interview__basic extends sm_baseinterview  {
 		
-		function render(){
+		public function render(){
 			$defaults = $this->data->get_parameter("defaults", array());
 			$ajax_submit_path = $this->data->get_parameter("ajax_submit_path", "");
 			$embeddable_id = $this->data->get_parameter("sm_embeddable_id", "");
@@ -19,7 +19,7 @@
 			
 			$s .= "<div class=\"form\">\n";
 			
-			$s .= "<form method=\"post\" id=\"sm_basic_form\"  action=\"#formname\" class=\"sm_form ";
+			$s .= "<form method=\"post\" id=\"sm_basic_form\" autocomplete=\"on\" action=\"#formname\" class=\"sm_form ";
 			
 			$s .= $lang;
 			$s .= "\">\n";

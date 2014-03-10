@@ -36,7 +36,7 @@
             return $s;
         }
 		
-		 protected function alternate_validation_bhvr($calledby, $behavior){
+		protected function alternate_validation_bhvr($calledby, $behavior){
             $observed = $behavior['observed'];
             $target = $calledby['name'];
             $conditions = $behavior['conditions']['value_in'];

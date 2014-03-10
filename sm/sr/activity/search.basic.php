@@ -1,7 +1,7 @@
 <?php
 	class sm_sr_activity_search__basic extends sm_renderable  {
 		
-		function render(){
+		public function render(){
 			$s = "<div class=\"sm_search_box\">\n";
 			$s .= "<div class=\"form\">\n";
 			

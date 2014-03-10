@@ -4,11 +4,11 @@
 		protected $data;
 		protected $default_parameters = array();
 		
-		function __construct($data = array()){
+		public function __construct($data = array()){
 			$this->data = $data;
 		}
 		
-		function override_template($template_name, $str){
+		public function override_template($template_name, $str){
 			$name = 'templates_' . $template_name;
 			$this->$name = $str;
 		}
@@ -16,21 +16,21 @@
 		function get_array_val($name, $arrays, $default = null){
 		}
 		*/
-		function set_parameter($name, $data){
+		public function set_parameter($name, $data){
 			$this->default_parameters[$name] = $data;
 		}
 			
-		function get_parameters(){
+		public function get_parameters(){
 			return $this->default_parameters;
 		}
 		
-		function get_parameter($name, $default=null){
+		public function get_parameter($name, $default=null){
 			if (isset($this->default_parameters[$name])) return $this->default_parameters[$name];
 			elseif (!is_null($default)) return $default;
 			throw new Exception ("No parameter exists for \"$name\"");
 		}
 		
-		function use_template($template_name, $data){
+		public function use_template($template_name, $data){
 			$template = $this->data->get_parameter($template_name);
 
 			foreach ($data as $data_name => $data_item){
@@ -42,7 +42,7 @@
 			return $template;
 		}
 		
-		function get_required_js(){
+		public function get_required_js(){
 			return array();
 		}
 		/*

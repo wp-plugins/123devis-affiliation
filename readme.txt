@@ -3,8 +3,8 @@ Contributors: Servicemagic EU
 Plugin Uri: http://wordpress.org/extend/plugins/123devis-affiliation/
 Tags: affiliation, performance, devis, travaux, formulaire travaux, leads, 123devis, 123devis.com, partenariat, génération de leads, collecte de profils, quotes
 Requires at least: 3.5
-Tested up to: WP 3.6.1
-Stable tag: 1.0.3
+Tested up to: WP 3.8.1
+Stable tag: 1.0.4
 License: GPLv2
 
 Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
@@ -74,6 +74,18 @@ Filiale française de HomeAdvisor, premier réseau mondial de mise en relation e
 
 == Changelog ==
 
+= 1.0.4 =
+* Tested with WordPress 3.8.1
+* New: Autocompletion of fields
+* Fixed: some code optimizations
+* Fixed: Fatal error: Uncaught exception 'Exception' with message 'No data exists for "id"'
+* Fixed: mysql_real_escape_string() replaced by esc_sql()
+* Fixed: The optional fields were always displayed
+* Fixed: The button labels for 2 steps SR forms were not taken into account
+* Fixed: Inappropriate history message "Paramètres non sauvegardés"
+* Fixed: Limit the logs on stderr
+* Fixed: Style of the «Add new interview» button
+
 = 1.0.3 =
 * New: The plugin can work if the backend and frontend domains are different
 * New Improve translation
@@ -93,3 +105,5 @@ Filiale française de HomeAdvisor, premier réseau mondial de mise en relation e
 
 = 1.0.0 =
 * Initial version
+
+== Upgrade Notice ==

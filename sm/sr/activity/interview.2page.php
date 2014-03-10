@@ -1,7 +1,7 @@
 <?php
 	class sm_sr_activity_interview__2page extends sm_baseinterview  {
 
-		function render(){
+		public function render(){
 			$defaults = $this->data->get_parameter("defaults", array());
 			$ajax_submit_path = $this->data->get_parameter("ajax_submit_path", "");
 			$embeddable_id = $this->data->get_parameter("sm_embeddable_id", "");
@@ -20,7 +20,7 @@
 			$s .= "<a name=\"formname\"></a>";
 			$s .= "<div class=\"form\">\n";
 
-			$s .= "<form method=\"post\" action=\"#formname\" id=\"sm_2page_form\" class=\"sm_form ";
+			$s .= "<form method=\"post\" action=\"#formname\" id=\"sm_2page_form\" autocomplete=\"on\" class=\"sm_form ";
 
 			$s .= $lang;
 			$s .= "\">\n";
@@ -45,12 +45,13 @@
 				
 				$s .= " " . ($step+1) . " / " . count($steps);
 				$s .= "</div>\n";
+				
 				foreach($this->data->get_data("questions") as $qid => $qdata){
 					if ($qdata['group'] == $group){
 
 						//required fields settings affect here
 						if ($this->data->get_parameter("only_required_fields", 0)
-							AND (!$qdata['type'] == 'hidden')
+							AND $qdata['type'] != 'hidden'
 							AND (!isset($qdata['required']) OR !$qdata['required'])){
 							continue;
 						}
@@ -91,9 +92,22 @@
 				}
 				$s .= "<div id=\"data\">\n</div>\n</div>\n";
 			}
-
+			
+			$btn_translations = array(
+				"back_strings" => array("fr"=>"Arriere", "uk"=>"Back"),
+				"next_strings" => array("fr"=>"Suivant", "uk"=>"Continue"),
+				"submit_strings" => array("fr"=>"Valider", "uk"=>"Get Quotes")
+			);
+				
+			foreach (array("submit_string", "back_string", "next_string") as $btn_lbl){
+				if (!$$btn_lbl = $this->data->get_parameter($btn_lbl, false)){
+					$$btn_lbl = $btn_translations[$btn_lbl . "s"][$lang];
+				}
+				$$btn_lbl =  addslashes($$btn_lbl);
+			}
+			
 			$s .= "<div class=\"sm_form_controls\">";
-			$s .= "<input type=\"submit\" class=\"sm_submit\" value=\"".$translation->trans("Continue")."\">\n";
+			$s .= "<input type=\"submit\" class=\"sm_submit\" value=\"{$next_string}\">\n";
 			$s .= "</div>";
 
 			$s .= "<div class=\"sm_required_declaration\">";
@@ -131,9 +145,9 @@
 					"}, \"Invalid format.\");\n".
 
 					"$(\"#sm_2page_form\").formwizard({ \n".
-					"	textSubmit : '" . $translation->trans("Get Quotes") . "',\n".
-					"	textNext : '" . $translation->trans("Continue") . "',\n".
-					"	textBack : '" . $translation->trans("Back") . "',\n".
+					"	textSubmit : '" . $submit_string . "',\n".
+					"	textNext : '" . $next_string . "',\n".
+					"	textBack : '" . $back_string . "',\n".
 					"	formPluginEnabled: false,\n".
 					"	validationEnabled: true,\n".
 					"	focusFirstInput : false,\n".

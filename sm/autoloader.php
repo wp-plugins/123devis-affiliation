@@ -2,7 +2,7 @@
 	class sm_autoloader {
 		private static $paths = array();
 		
-		static function attach($more_paths = array()){
+		public static function attach($more_paths = array()){
 			$al_obj = new sm_autoloader();
 			foreach ($more_paths as $autoload_path){
 				sm_autoloader::add_path($autoload_path);
@@ -10,11 +10,11 @@
 			spl_autoload_register ("sm_autoloader::load");
 		}
 	
-		static function add_path($path){
+		public static function add_path($path){
 			array_unshift(self::$paths, $path . "/");
 		}
 		
-		static function load($name){
+		public static function load($name){
 			//exit if not servicemagic specific
 			if (strpos($name, "sm_") !== 0) return;
 			

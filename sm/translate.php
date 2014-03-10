@@ -26,20 +26,30 @@
              	self::$translations[$lang] = array();
 				return;
 			}
-			
+
 			$strings = file($transfile);
 			foreach ($strings as $line) {
-				$p = preg_split("~(?<!\\\):~", $line);//negative look behind so that \: is'nt used as delimeter.
+				$ipos = 0;
+				$trans = array();
+				
+				while ($ipos = strpos($line, ":", $ipos)){
+					if ($line[$ipos-1] == "\\") $ipos++;
+					else {
+						$trans[0] = trim(substr($line, 0, $ipos));
+						$trans[1] = trim(substr($line, $ipos+1));
+						break;
+					}
+				}
 
-				if (count($p) !== 2) {
+				if (count($trans) !== 2) {
 					continue;
 				}
 				
-				foreach($p as $k => $v){
-					$p[$k] = trim(str_replace("\:", ":", $v));
+				foreach($trans as $k => $v){
+					$trans[$k] = str_replace("\:", ":", $v);
 				}
-				
-				self::$translations[$lang][$p[0]] = $p[1];
+
+				self::$translations[$lang][$trans[0]] = $trans[1];
 			}
 		}
 		

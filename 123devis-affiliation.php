@@ -3,7 +3,7 @@
 Plugin Name: 123devis-affiliation
 Plugin URI: http://wordpress.org/extend/plugins/123devis-affiliation/
 Description: Le plugin 123devis-affiliation une solution simple, rapide et customisable pour intégrer l’ensemble des formulaires 123devis.com à votre site.
-Version: 1.0.3
+Version: 1.0.4
 Author: Servicemagic EU
 */
 

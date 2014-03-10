@@ -1,7 +1,7 @@
 <?php 
 	class sm_sp_interview_worktypelist extends sm_renderable {
 
-		function render($data, $form){
+		public function render($data, $form){
 			
 			$s = "<div class=\"sm_worktypelist\">\n";
 			

@@ -1,7 +1,7 @@
 <?php
 	class sm_sp_interview_tradelist extends sm_renderable {
 
-		function render($data, $form){
+		public function render($data, $form){
 			$translation = $this->data->get_parameter("translate");
 			$trades_to_show = $this->data->get_parameter("trades", array());
 			if (count($trades_to_show)){

@@ -16,10 +16,12 @@
 		if (!empty($_SERVER['REMOTE_ADDR'])){
 			$api->add_header("X-SMF-FORWARDED-IP", $_SERVER['REMOTE_ADDR']);
 		}
-		if (!empty($_COOKIE['KWID_COOKIE'])){
-			$api->add_header("X-SMF-FORWARDED-KWID", $_COOKIE['KWID_COOKIE']);
+		
+		$api->add_header("X-SMF-FORWARDED-KWID", sm_get_kwid());
+		
+		if (!empty($_SERVER["HTTP_HOST"])){
+			$api->add_xfer_data("serving_host", $_SERVER["HTTP_HOST"]);
 		}
-	
 		//set the creds and cache mechanism
 		$api->set_api_url(get_option("sm_api_url"), get_option("sm_api_server"));
 		$api->set_cache_mechanism(get_option("sm_api_cache_mechanism", "ETAG"));
@@ -90,14 +92,6 @@
 
 		$api = sm_api_factory();
 
-		if (isset($data['kwid_override'])){
-			$api_kwid = $data['kwid_override'];
-			unset($data['kwid_override']);
-		} else {
-			$sm_creds = get_option("sm_creds");
-			$api_kwid = $sm_creds['sm_kwids'][0];
-		}
-
 		$type = $data['type'];
 		unset($data['type']);
 
@@ -113,7 +107,7 @@
 		}
 		
 		$ajax_submit_path = preg_replace("~^http[s]?://[^/]+/~", "/", $ajax_submit_path);
-		
+
 		//prep sql and conditions
 		$conditions_keys = array();
 		$conditions_vals = array();
@@ -160,7 +154,7 @@
 			$myform->tracking_label = get_option("sm_default_aff_str", "default");
 		}
 
-		$interview->set_affiliate_data($api_kwid, $myform->tracking_label);
+		$interview->set_affiliate_track_string($myform->tracking_label);
 
 		//set the site wide defaults as set on the defaults page
 		$sm_display_defaults = get_option("sm_display_defaults");
@@ -321,6 +315,16 @@
 		return $deleted_count;
 	}
 	
+	function sm_get_kwid(){
+		//check to see if its in cookie
+		if (!empty($_COOKIE['KWID_COOKIE'])){
+			return $_COOKIE['KWID_COOKIE'];
+		}
+		//otherwise use the one stored in options
+		$sm_creds = get_option("sm_creds");
+		return $sm_creds['sm_kwids'][0];
+	}
+	
 	function sm_manage_sp_submission_country ($interview){
 		$sm_api_server = get_option("sm_api_server");
 		$sm_api_server_country = strtoupper(str_replace(array("dev-", "local-"), "", $sm_api_server));
@@ -333,5 +337,6 @@
 				$questions[$k]['default'] = str_replace(array("FR", "UK"), array("France", "United Kingdom"), $sm_sp_submit_to_country);
 			}
 		}
+
 		$interview->set_questions($questions);
 	}

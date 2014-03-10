@@ -3,7 +3,7 @@
 			
 		protected $template_interview_title = "<div class=\"sm_title\">\n[title]\n</div>\n";
 		
-		function render($data){
+		public function render($data){
 			return $this->use_template('interview_title', $data);
 		}
 		

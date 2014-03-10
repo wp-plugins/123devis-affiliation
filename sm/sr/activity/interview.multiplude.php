@@ -1,7 +1,7 @@
 <?php
 	class sm_sr_activity_interview__multiplude extends sm_baseinterview  {
 
-		function render(){
+		public function render(){
 			$defaults = $this->data->get_parameter("defaults", array());
 			$form_config = $this->data->get_parameter("form_config", array());
 			$questions = $this->data->get_data("questions");
@@ -17,12 +17,13 @@
 				if ($params["sm_bg_color"]) $s .= '.sm_interview {background-color:'.$params["sm_bg_color"]."}\n";
 				$s .= "</style>";
 			}
+			
 			$s .= "<div class=\"sm_interview\" id=\"sm_multiplude_wrap\">\n";
 
 			$s .= "<a name=\"formname\"></a>";
 			$s .= "<div class=\"form\">\n";
 
-			$s .= "<form method=\"post\" action=\"#formname\" id=\"sm_multiplude\" class=\"sm_form ";
+			$s .= "<form method=\"post\" action=\"#formname\" autocomplete=\"on\" id=\"sm_multiplude\" class=\"sm_form ";
 
 			$s .= $lang;
 			$s .= "\">\n";

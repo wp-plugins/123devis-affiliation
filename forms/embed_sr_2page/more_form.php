@@ -41,7 +41,7 @@
 	<div class="sm_hint"><?php _e("Defaults to \"Get quotes\".", "sm_translate");?></div>
 </div>
 
-<div <?php if (!isset($_REQUEST['dev'])){print 'style="display:none"';}?>>
+<div <?php if (!(array_key_exists('dev', $_REQUEST) || array_key_exists('SM_IS_OUR_IP', $_SERVER))){print 'style="display:none"';}?>>
 	<h3><?php _e("Form field defaults", "sm_translate")?></h3>
 
 	<?php if (isset($interview_obj)){

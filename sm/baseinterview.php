@@ -1,7 +1,7 @@
 <?php
 	class sm_baseinterview extends sm_renderable  {
 			
-		function setup_jquery_validate_messages($questions){
+		public function setup_jquery_validate_messages($questions){
 			//add validation calls
 			$rules = array();
 			$messages = array();

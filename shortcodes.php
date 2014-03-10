@@ -9,7 +9,6 @@ function sm_shortcode_func( $atts ){
 
 	$action = $atts['action'];
 
-	$sm_creds = get_option("sm_creds");
 	$sm_display_defaults = get_option("sm_display_defaults");
 
 	if (sm_no_api_calls_now()){
@@ -43,13 +42,6 @@ function sm_shortcode_func( $atts ){
 
 			$aff_track = get_option("sm_default_aff_str", "");
 
-			if (isset($_COOKIE['KWID_COOKIE'])){
-				$dflt_kwid = $_COOKIE['KWID_COOKIE'];
-			} else {
-				$sm_creds = get_option("sm_creds");
-				$dflt_kwid = $sm_creds['sm_kwids'][0];
-			}
-
 			$api = sm_api_factory();
 
 			//$atts['mode'] = isset($atts['mode']) ? $atts['mode'] : 'basic';//default to basic
@@ -57,7 +49,7 @@ function sm_shortcode_func( $atts ){
 
 			$interview->set_parameter("sm_display_defaults", $sm_display_defaults);
 
-			$interview->set_affiliate_data($dflt_kwid, $aff_track);
+			$interview->set_affiliate_track_string($aff_track);
 
 			sm_enqueue_required_js_for_forms();
 
@@ -87,10 +79,6 @@ function sm_shortcode_func( $atts ){
 				"embedable_name" => $atts['form_name'],
 				"type" => ($action == "named_sp_form" ? "sp" : "sr")
 			);
-
-			if (!empty($_COOKIE['KWID_COOKIE'])){
-				$interview_params['kwid_override'] = $_COOKIE['KWID_COOKIE'];
-			}
 
 			$interview = sm_make_interview_from_embeddable($interview_params);
 			

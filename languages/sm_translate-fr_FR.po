@@ -2,18 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Servicemagic API\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-08 09:11+0100\n"
-"PO-Revision-Date: 2013-10-08 09:11+0100\n"
-"Last-Translator: Frédéric GILLES <f.gilles@servicemagic.eu>\n"
+"POT-Creation-Date: 2014-02-27 18:31+0100\n"
+"PO-Revision-Date: 2014-02-27 18:32+0100\n"
+"Last-Translator: Frederic GILLES <f.gilles@servicemagic.eu>\n"
 "Language-Team: \n"
-"Language: fr-FR\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
 #: .././administration.php:10
@@ -67,7 +67,7 @@ msgstr "Le mot de passe est nécessaire"
 msgid "The API Url must be a valid url"
 msgstr "L'URL de l'API doit être un url valide"
 
-#: .././administration.php:81
+#: .././administration.php:79
 msgid ""
 "There was a problem connecting to the ServiceMagic API.  Please check your "
 "API Url settings or contact your Affiliate Representative."
@@ -75,80 +75,80 @@ msgstr ""
 "Un problème est survenu lors de la tentative de connexion à l’API. Veuillez "
 "réessayer ou prendre contact avec votre responsable 123devis."
 
-#: .././administration.php:96
+#: .././administration.php:94
 msgid "Login details not found"
 msgstr "Identifiants non trouvé"
 
-#: .././administration.php:127
+#: .././administration.php:125
 msgid "Credentials Saved"
 msgstr "Identifiants Sauvegardés"
 
-#: .././administration.php:129 .././administration.php:180
-#: .././administration.php:379 .././administration.php:380
-msgid "Please fix these errors"
-msgstr "Veuillez corriger ces erreurs"
-
-#: .././administration.php:131
+#: .././administration.php:128
 msgid "Settings not accepted"
 msgstr "Paramètres non sauvegardés"
 
-#: .././administration.php:168
+#: .././administration.php:129 .././administration.php:179
+#: .././administration.php:378 .././administration.php:379
+msgid "Please fix these errors"
+msgstr "Veuillez corriger ces erreurs"
+
+#: .././administration.php:167
 msgid "The Font Size must be an integer"
 msgstr "La taille de police doit être un numéro entier"
 
-#: .././administration.php:169
+#: .././administration.php:168
 msgid "The Font Color must be a valid hex value"
 msgstr "La couleur de police doit être une valeur valide"
 
-#: .././administration.php:170
+#: .././administration.php:169
 msgid "The Background Color must be a valid hex value"
 msgstr "La couleur de fond doit être une valeur valide"
 
-#: .././administration.php:171
+#: .././administration.php:170
 msgid "The Cache mechanism must be selected"
 msgstr "Le mécanisme de cache doit être sélectionné"
 
-#: .././administration.php:195
+#: .././administration.php:194
 msgid "Options Saved!"
 msgstr "Options sauvegardées"
 
-#: .././administration.php:232
+#: .././administration.php:231
 msgid "Item archived"
 msgstr "Formulaire archivé"
 
-#: .././administration.php:233
+#: .././administration.php:232
 msgid "Item permanently deleted"
 msgstr "Formulaire supprimé de manière permanente"
 
-#: .././administration.php:234
+#: .././administration.php:233
 msgid "Item de-archived"
 msgstr "Formulaire désarchivé"
 
-#: .././administration.php:311 .././administration.php:463
+#: .././administration.php:310 .././administration.php:466
 msgid "Name is required"
 msgstr "Veuillez entrer un nom"
 
-#: .././administration.php:312
+#: .././administration.php:311
 msgid "Please select a ServiceMagic form"
 msgstr "Veuillez sélectionner un formulaire 123devis"
 
-#: .././administration.php:324 .././administration.php:476
+#: .././administration.php:323 .././administration.php:479
 msgid "This Name is too short or not useable"
 msgstr "Ce nom est trop court ou pas utilisable"
 
-#: .././administration.php:334 .././administration.php:488
+#: .././administration.php:333 .././administration.php:491
 msgid "This Name is not unique"
 msgstr "Le nom doit être unique"
 
-#: .././administration.php:373 .././administration.php:526
+#: .././administration.php:372 .././administration.php:529
 msgid "Saved"
 msgstr "Sauvegardé"
 
-#: .././administration.php:376 .././administration.php:529
+#: .././administration.php:375 .././administration.php:532
 msgid "Return to embedable forms list"
 msgstr "Retour à la liste de formulaires intégrables"
 
-#: .././administration.php:390
+#: .././administration.php:389
 msgid ""
 "This form has invalid charachters in the form identifyer. Only letters, "
 "numbers and underscores are permissible."
@@ -157,8 +157,16 @@ msgstr ""
 "formulaire. Seules les lettres, numéros, et caractères de soulignement sont "
 "autorisés."
 
-#: .././administration.php:417 .././administration.php:455
-#: .././administration.php:561
+#: .././administration.php:417
+msgid ""
+"The saved interview identifier is invalid, Please reselect the interview and "
+"save the form."
+msgstr ""
+"L'identifiant du formulaire est invalide. Veuillez choisir un autre "
+"formulaire et l'enregistrer."
+
+#: .././administration.php:419 .././administration.php:458
+#: .././administration.php:564
 msgid ""
 "There was a problem connecting to the ServiceMagic API.  Please try again "
 "soon or contact your Affiliate Representative."
@@ -166,7 +174,7 @@ msgstr ""
 "Problème pour se connecter sur l'API. Réessayer ou contacter votre "
 "responsable 123devis."
 
-#: .././administration.php:541
+#: .././administration.php:544
 msgid ""
 "This form has invalid charachters in the form identifyer. Only letters, "
 "underscores and dashes are acceptable."
@@ -175,15 +183,15 @@ msgstr ""
 "formulaire. Seules les lettres, caractère de soulignement et tiret sont "
 "autorisés."
 
-#: .././shortcodes.php:99 .././shortcodes.php:104
+#: .././shortcodes.php:87 .././shortcodes.php:92
 msgid "Interview not available"
 msgstr "Formulaire non disponible"
 
-#: .././sm_functions.php:190
+#: .././sm_functions.php:187
 msgid "INTERNAL USAGE (Only visible internally) :"
 msgstr "USAGE INTERNE (Visible seulement en interne) :"
 
-#: .././sm_functions.php:196
+#: .././sm_functions.php:193
 msgid "Check this box if you want this request to be filtered"
 msgstr "Cocher la case si cette demande ne doit pas être enregistrée"
 

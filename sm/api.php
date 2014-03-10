@@ -2,15 +2,15 @@
 	class sm_api {
 
 		private $api_url = 'http://local-api.servicemagic.co.uk';
-		private $api_version = "0.3";
+		private $api_version = "0.4";
 		private $cache_mechanism = "ETAG";
 		private $api_country;
 		private $path = array();
-		private $overrides = array();
 		private $sm_settings;
 		private $headers;
-
-		function __construct($sm_aff_id = "0", $sm_token = "not stated"){
+		private $more_xfer_data = array();
+		
+		public function __construct($sm_aff_id = "0", $sm_token = "not stated"){
 			$this->sm_settings = array(
 				'sm_aff_id' => $sm_aff_id,
 				'sm_token' => $sm_token
@@ -23,47 +23,55 @@
 			);
 		}
 
-        function get_api_version(){
+        public function get_api_version(){
             return  $this->api_version;
         }
 
-		function set_api_url($api_url, $api_server){
+		public function set_api_url($api_url, $api_server){
 			$this->api_url = $api_url;
 			$this->api_server = $api_server;
 		}
 
-		function set_cache_mechanism($cache_mechanism){
+		public function set_cache_mechanism($cache_mechanism){
 			$this->cache_mechanism = $cache_mechanism;
 		}
 		
-		function add_header($name, $val){
+		public function add_xfer_data($name, $data_str){
+			$this->more_xfer_data[$name] = $data_str;
+		}
+		
+		public function add_header($name, $val){
 			$this->headers[$name] = $val;
 		}
 		
-		function get_country(){
+		public function get_country(){
 			return preg_replace("/^(dev-|local-)/", "", $this->api_server);
 		}
 
-		function get($a = array()){
+		public function get($a = array()){
 			return $this->call("get", $a);
 		}
 
-		function post($a = array()){
+		public function post($a = array()){
 			return $this->call("post", $a);
 		}
 
-		function delete($a = array()){
+		public function delete($a = array()){
 			return $this->call("delete", $a);
 		}
 
 		//shortcut to not make http request but use template hierarchy polymorphically
-		function renderable($a = array()){
+		public function renderable($a = array()){
 			return $this->call("renderable", $a);
 		}
 
 		private function call($mthd, $call_args){
-
+			//init var
 			$from_cache = 0;
+	
+			//merge the xtra transfer data
+			$call_args = array_merge($this->more_xfer_data, $call_args);
+
 			//save the path to here for reeuse in rendering
 			$renderable_class_name = "sm_" . implode("_", $this->path);
 
@@ -92,8 +100,6 @@
 				$url = preg_replace("/(local|dev)-(uk|fr|de|it|es)\//", "", $url);
 			}
 
-			
-
 			switch($mthd){
 				case 'get' :
 					//only get requests should ever be cached
@@ -116,6 +122,7 @@
 
 						//make the call
 						$sm_http->get($url, $call_args);
+
 						if ($sm_http->get_response_field("status_code") == "304"){
 							$from_cache = 1;
 							$api_data = $cached_api_data;
@@ -206,11 +213,8 @@
 		}
 		
 		//magic method used to build path url for api ex $api->account->validate->get();
-		function __get($name){
+		public function __get($name){
 			$this->path[] = strtolower($name);
 			return $this;
 		}
-		
-		
-
 	}

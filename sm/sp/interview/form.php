@@ -4,7 +4,7 @@
 			
 		protected $template_interview_description = "<div class=\"description\">\n[description]\n</div>\n";
 
-		function render($interview, $form_data, $validator){
+		public function render($interview, $form_data, $validator){
 			$s = "<div class=\"interview\">\n";
 			$title_obj = new sm_sr_activity_interview_title;
 			$s .= $title_obj->render($this->data);

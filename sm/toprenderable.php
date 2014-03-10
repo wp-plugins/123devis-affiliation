@@ -8,37 +8,36 @@
 		protected $renderable;
 		protected $affiliate;
 		
-		function __construct($data, $sm_settings, $api){
+		public function __construct($data, $sm_settings, $api){
 			$this->data = $data;
 			$this->sm_settings = $sm_settings;
 			$this->api = $api;
 		}
 		
-		function set_affiliate_data($aff_kwid, $aff_track){
-			$this->affiliate['aff_kwid'] = $aff_kwid;
+		public function set_affiliate_track_string($aff_track){
 			$this->affiliate['aff_track'] = $aff_track;
 		}
 
-		function getIterator(){
+		public function getIterator(){
 			return new ArrayIterator($this->data);
 		}
 		
-		function get_api(){
+		public function get_api(){
 			return $this->api;
 		}
 		
-		function get_data($name = null, $default = null){
+		public function get_data($name = null, $default = null){
 			if (is_null($name)) return $this->data;
 			elseif (isset($this->data[$name])) return $this->data[$name];
 			elseif (! is_null($default)) return $default;
 			throw new Exception ("No data exists for \"$name\"");
 		}
 		
-		function has_errors(){
+		public function has_errors(){
 			return isset($this->data['errors']);
 		}
 		
-		function get_errors($formatted = false){
+		public function get_errors($formatted = false){
 			if (isset($this->data['errors']) AND count($this->data['errors'])){
 				return $this->data['errors'];
 			} else {
@@ -46,7 +45,7 @@
 			}
 		}
 		
-		function get_formatted_errors($format="html"){
+		public function get_formatted_errors($format="html"){
 			if (!empty($this->data['errors'])){
 				$errors = $this->data['errors'];
 				foreach($errors as $error_name => $error_item){
@@ -69,29 +68,29 @@
 			} else throw new Exception("Currently no errors, check \"has_errors\" first");
 		}
 		
-		function set_parameter($name, $data){
+		public function set_parameter($name, $data){
 			$this->parameters[$name] = $data;
 		}
 		
-		function get_parameter($name, $default=null){
+		public function get_parameter($name, $default=null){
 			if (isset($this->parameters[$name])) return $this->parameters[$name];
 			elseif (!is_null($default)) return $default;
 			throw new Exception ("No parameter exists for \"$name\"");
 		}
 		
-		function has_parameter($name){
+		public function has_parameter($name){
 			return isset($this->parameters[$name]);
 		}
 		
 		
-		function render(){
+		public function render(){
 			//get renderable object
 			$renderable = $this->get_renderable();
 			//process it
 			return $renderable->render($this);
 		}
 		
-		function get_renderable(){
+		public function get_renderable(){
 		
 			//if renderable already exists
 			if (is_null($this->renderable)) {

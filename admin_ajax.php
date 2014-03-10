@@ -75,11 +75,11 @@
 		
 		$interview_params = array("id"=>$_REQUEST['embeddable_id'], "type"=>$type);
 		
-		if (!empty($_COOKIE['KWID_COOKIE'])){
-			$interview_params['kwid_override'] = $_COOKIE['KWID_COOKIE'];
-		}
-				
 		$interview = sm_make_interview_from_embeddable($interview_params);
+		
+		if (empty($interview)){
+			throw new sm_general_exception("Could not make interview object", interview_params);
+		}
 		
 		$return_data = array();
 		
@@ -114,8 +114,8 @@
 		
 		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
 		{
-			$sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
-				mysql_real_escape_string( $_GET['iDisplayLength'] );
+			$sLimit = "LIMIT ".esc_sql( $_GET['iDisplayStart'] ).", ".
+				esc_sql( $_GET['iDisplayLength'] );
 		}
 		
 		
@@ -132,7 +132,7 @@
 				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
 				{
 					$sOrder .= "`".$aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."` ".
-						mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", ";
+						esc_sql( $_GET['sSortDir_'.$i] ) .", ";
 				}
 			}
 			
@@ -155,7 +155,7 @@
 			$sWhere = "WHERE (";
 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
 			{
-				$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+				$sWhere .= "`".$aColumns[$i]."` LIKE '%".esc_sql( $_GET['sSearch'] )."%' OR ";
 			}
 			$sWhere = substr_replace( $sWhere, "", -3 );
 			$sWhere .= ')';
@@ -174,7 +174,7 @@
 				{
 					$sWhere .= " AND ";
 				}
-				$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+				$sWhere .= "`".$aColumns[$i]."` LIKE '%".esc_sql($_GET['sSearch_'.$i])."%' ";
 			}
 		}
 		

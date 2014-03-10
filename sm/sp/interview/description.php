@@ -3,7 +3,7 @@
 			
 		protected $template_interview_description = "<div class=\"description\">\n[description]\n</div>\n";
 		
-		function render($data){
+		public function render($data){
 			return $this->use_template('interview_description', $data);
 		}
 		

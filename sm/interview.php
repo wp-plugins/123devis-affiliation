@@ -4,37 +4,37 @@
 		protected $validator;
 		protected $submission_result;
 		
-		function __construct($data, $settings, $api){
+		public function __construct($data, $settings, $api){
 			parent::__construct($data, $settings, $api);
 			if ($this->has_errors()){
 				throw new sm_exception_general($this->get_formatted_errors());
 			}
 		}
 			
-		function get_id(){
+		public function get_id(){
 			return $this->data['id'];
 		}
 		
-		function get_title(){
+		public function get_title(){
 			return $this->data['title'];
 		}
 		
-		function get_questions(){
+		public function get_questions(){
 			return $this->data['questions'];
 		}
 		
-		function set_questions($questions){
+		public function set_questions($questions){
 			$this->data["questions"] = $questions;
 		}
 			
-		function get_validator(){
+		public function get_validator(){
 			if (is_null($this->validator)) {
 				$this->validator = new sm_validation;
 			}
 			return $this->validator;
 		}
 			
-		function submit($form_data){
+		public function submit($form_data){
 			
 			//update with defaults if they exist
 			$defaults = $this->get_parameter("defaults", array());
@@ -48,8 +48,6 @@
 			}
 			
 			//try to send it
-			
-			$form_data["KWID"] = $this->affiliate['aff_kwid'];
 			$form_data["aff_track"] = $this->affiliate['aff_track'];
 
 			$this->submission_result = $this->get_submission_result_obj_by_api($form_data);
@@ -72,11 +70,11 @@
 			return true;
 		}
 		
-		function get_submission_result(){
+		public function get_submission_result(){
 			return $this->submission_result;			
 		}
 		
-		function validate($data){
+		public function validate($data){
 			$validator = $this->get_validator();
 			$validator->set_data($data);
 			$questions = $this->data['questions'];
@@ -113,7 +111,7 @@
 			return ! $validator->has_errors();  //result should be true if form validates with no errors
 		}
 		
-		function render_with_submit(){
+		public function render_with_submit(){
 			//print_r($_POST);
 			if (!empty($_POST) AND count($_POST) > 5 AND $this->submit($_POST)){
 				$this->set_parameter("view", "thanks");

@@ -14,6 +14,7 @@
 			$this->config[CURLOPT_RETURNTRANSFER] = true;
 			//$this->config[CURLOPT_USERAGENT] = "mmm";
 			$this->config[CURLOPT_SSL_VERIFYPEER] = false;
+			//use for debugging low level curl requests : $this->config[CURLOPT_VERBOSE] = true;
 		}
 
 		public function add_http_header($value)	{
@@ -92,7 +93,7 @@
 			foreach($this->config as $config_key => $config_item){
 				curl_setopt($curl_obj, $config_key, $config_item);
 			}
-			curl_setopt($curl_obj, CURLOPT_VERBOSE, true);
+			
 			curl_setopt($curl_obj, CURLOPT_HTTPHEADER, $this->headers);
 
 			$http_result_str = curl_exec($curl_obj);
